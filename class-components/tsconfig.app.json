@@ -7,6 +7,11 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
+    "paths": {
+      "src/*": ["./src/*"],
+      "components/*": ["./src/components/*"],
+      "tests/*": ["./src/tests/*"]
+    },
 
     /* Bundler mode */
     "moduleResolution": "bundler",
