@@ -9,7 +9,7 @@
     "skipLibCheck": true,
     "baseUrl": "./",
     "paths": {
-      "src/*": ["./class-components/src/*"]
+      "src/*": ["./src/*"]
     },
 
     /* Bundler mode */
