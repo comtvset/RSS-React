@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import App from 'src/AppW.tsx';
+import App from 'src/myApp.tsx';
 import 'src/index.css';
 
 const rootElement = document.createElement('div');
