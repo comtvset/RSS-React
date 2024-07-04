@@ -5,7 +5,7 @@
   "type": "module",
   "husky": {
     "hooks": {
-      "pre-commit": "npm run format:fix --staged-files",
+      "pre-commit": "npm -- prefix class-components run format:fix --staged-files",
       "pre-push": "npx validate-branch-name"
     }
   },
