@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "lint-staged": {
-    "*.{tsx,ts}": "eslint"
+    "*.{tsx,ts}": "npm --prefix tasks run lint:fix"
   },
   "scripts": {
     "dev": "vite",
