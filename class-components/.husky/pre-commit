@@ -1,3 +1,3 @@
 npm --prefix class-components run format:fix --staged-files
 npm --prefix class-components run ci:format --staged-files
-npm --prefix class-components run lint:fix --staged-files
+npm --prefix class-components run lint:fix
