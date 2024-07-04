@@ -5,7 +5,7 @@ export const App = () => {
     <>
       <h1>Get Start!</h1>
       <div>
-        <button onClick={() => {}}> Test Error </button>
+        <button onClick={() => {}}> Test Errorssss </button>
       </div>
     </>
   );
