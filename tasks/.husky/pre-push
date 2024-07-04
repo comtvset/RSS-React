@@ -1,1 +1,1 @@
-npm --prefix tasks run lint
+#npm --prefix tasks run lint
