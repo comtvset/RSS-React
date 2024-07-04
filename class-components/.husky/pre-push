@@ -1,1 +1,1 @@
-npm -- prefix class-components run lint
+npm --prefix class-components run lint
