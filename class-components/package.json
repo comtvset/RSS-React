@@ -4,7 +4,6 @@
   "version": "1.0.0",
   "type": "module",
   "lint-staged": {
-    "*.{tsx,ts}": "npm run lint"
   },
   "scripts": {
     "dev": "vite",
