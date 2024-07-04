@@ -7,7 +7,7 @@
     "*.{tsx,ts}": [
       "npm --prefix tasks run format:fix --staged-files",
       "npm --prefix tasks run ci:format --staged-files",
-      "npx --prefix tasks lint"
+      "npm --prefix tasks run lint:fix"
     ]
   },
   "scripts": {
