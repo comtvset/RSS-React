@@ -12,10 +12,19 @@
   transition: filter 300ms;
 }
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  filter: drop-shadow(0 0 2em #ff7b64aa);
 }
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-scale {
+  from {
+    transform: scale3d(.8, .8, .8);
+  }
+  to {
+    transform: scale3d(1, 1, 1);
+  }
 }
 
 @keyframes logo-spin {
@@ -28,8 +37,11 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(1) .logo {
+    animation: logo-scale infinite .7s cubic-bezier(0.55, 0.06, 0.68, 0.19);
+  }
   a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+    animation: logo-spin infinite 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
