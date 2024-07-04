@@ -1,0 +1,2 @@
+npm class-components run format:fix --staged-files
+npm run ci:format --staged-files

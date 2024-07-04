@@ -19,7 +19,7 @@
     "preview": "vite preview",
     "format:fix": "npx prettier . --cache --write src/**/*.*",
     "ci:format": "prettier . --check",
-    "prepare": "husky"
+    "prepare": "cd .. && husky class-components/.husky"
   },
   "dependencies": {
     "react": "^18.3.1",
