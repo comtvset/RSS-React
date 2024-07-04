@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+. "${0%/*}/h"
+npx lint-staged
+npm --prefix tasks run format:fix --staged-files
+npm --prefix tasks run ci:format --staged-files
