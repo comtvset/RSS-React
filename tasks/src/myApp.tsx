@@ -1,6 +1,7 @@
 import 'src/myApp.css';
 
 export const App = () => {
+  const a = 8
   return (
     <>
       <h1>Get Start!</h1>
