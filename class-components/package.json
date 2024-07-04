@@ -3,12 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run format:fix --staged-files",
-      "pre-push": "npx validate-branch-name"
-    }
-  },
+
   "lint-staged": {
     "*.{tsx,ts}": "npm run lint"
   },
