@@ -4,7 +4,11 @@
   "version": "1.0.0",
   "type": "module",
   "lint-staged": {
-    "*.{tsx,ts}": "npm --prefix tasks run lint:fix"
+    "*.{tsx,ts}": [
+      "npm --prefix tasks run format:fix --staged-files",
+      "npm --prefix tasks run ci:format --staged-files",
+      "npx --prefix tasks lint"
+    ]
   },
   "scripts": {
     "dev": "vite",
