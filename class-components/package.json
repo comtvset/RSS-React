@@ -3,12 +3,6 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "husky": {
-    "hooks": {
-      "pre-commit": "fff",
-      "pre-push": "npx validate-branch-name"
-    }
-  },
   "lint-staged": {
     "*.{tsx,ts}": "npm run lint"
   },
