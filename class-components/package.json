@@ -4,11 +4,13 @@
   "version": "1.0.0",
   "type": "module",
   "lint-staged": {
+    "*.{tsx,ts}": ["npm run lint:fix"]
   },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint --cache . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint --cache . --ext ts,tsx --report-unused-disable-directives --fix",
     "preview": "vite preview",
     "format:fix": "npx prettier . --cache --write src/**/*.*",
     "ci:format": "prettier . --check",
