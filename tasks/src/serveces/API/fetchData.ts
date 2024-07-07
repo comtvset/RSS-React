@@ -10,6 +10,5 @@ export const fetchData = async (query: string) => {
     return data.results;
   } catch (error) {
     error;
-    // console.error('Error fetching data:', error);
   }
 };
