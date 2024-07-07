@@ -1,6 +1,6 @@
 import React from 'react';
 import { fetchData } from 'src/serveces/API/fetchData.ts';
-import { Card } from 'src/components/Card/Card.tsx';
+import { Card } from 'src/components/Card/Card';
 import 'src/components/form/Forms.scss';
 
 interface Person {}
@@ -32,17 +32,37 @@ export class Form extends React.Component<object, FormState> {
   };
 
   componentDidMount() {
-    this.runFirstFetch(this.state.query);
+    const savedQuery = localStorage.getItem('queryData');
+
+    if (savedQuery) {
+      try {
+        const localStorageData = JSON.parse(savedQuery);
+        if (localStorageData.query === '') {
+          this.runFirstFetch('');
+        } else {
+          this.setState({ query: localStorageData.query }, () => {
+            this.runFirstFetch(localStorageData.query);
+          });
+        }
+      } catch (error) {
+        // console.error('Error parsing localStorage data:', error);
+        this.runFirstFetch('');
+      }
+    } else {
+      this.runFirstFetch('');
+    }
   }
 
   handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    const { query } = this.state;
+    const searchData = { query };
+    localStorage.setItem('queryData', JSON.stringify(searchData));
     this.setState({ isLoading: true });
     try {
-      const results = await fetchData(this.state.query);
+      const results = await fetchData(query);
       this.setState({ results });
     } catch (error) {
-      error;
       // console.error('Error in handleClick:', error);
     } finally {
       this.setState({ isLoading: false });
