@@ -29,6 +29,8 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
   render() {
     if (this.state.error) {
       const errorMessage: React.CSSProperties = {
+        whiteSpace: 'break-spaces',
+        overflowWrap: 'anywhere',
         backgroundColor: '#00000057',
         padding: '10px',
         borderRadius: '5px',
