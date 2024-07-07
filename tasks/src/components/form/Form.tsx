@@ -69,17 +69,19 @@ export class Form extends React.Component<object, FormState> {
   };
 
   handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ query: event.target.value });
+    const trimmedValue = event.target.value.trim();
+    this.setState({ query: trimmedValue });
   };
 
   render() {
     return (
       <>
-        <form className="form-form">
+        <form className="form-form" id="searchForm">
           <label htmlFor="search" />
           <input
             className="form-input"
             type="text"
+            id="search"
             name="search"
             value={this.state.query}
             onChange={this.handleInputChange}
