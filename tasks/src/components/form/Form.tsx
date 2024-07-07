@@ -25,7 +25,6 @@ export class Form extends React.Component<object, FormState> {
       this.setState({ results });
     } catch (error) {
       error;
-      // console.error('Error in runFirstFetch:', error);
     } finally {
       this.setState({ isLoading: false });
     }
@@ -45,7 +44,7 @@ export class Form extends React.Component<object, FormState> {
           });
         }
       } catch (error) {
-        // console.error('Error parsing localStorage data:', error);
+        error;
         this.runFirstFetch('');
       }
     } else {
@@ -63,7 +62,7 @@ export class Form extends React.Component<object, FormState> {
       const results = await fetchData(query);
       this.setState({ results });
     } catch (error) {
-      // console.error('Error in handleClick:', error);
+      error;
     } finally {
       this.setState({ isLoading: false });
     }
@@ -72,8 +71,6 @@ export class Form extends React.Component<object, FormState> {
   handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ query: event.target.value });
   };
-
-  handleClickError = () => {};
 
   render() {
     return (
@@ -109,14 +106,6 @@ export class Form extends React.Component<object, FormState> {
             )}
           </div>
         </div>
-        <button
-          className="error-btn"
-          onClick={() => {
-            this.handleClickError();
-          }}
-        >
-          Error
-        </button>
       </>
     );
   }
