@@ -1,0 +1,51 @@
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.form-input {
+  border-radius: 8px;
+  background-color: #1a1a1a88;
+  color: white;
+  border: 1px solid rgb(119, 118, 118);
+  height: 2.1em;
+  width: 60%;
+  margin: 10px;
+  transition: 0.3s ease;
+}
+
+.form-input:hover {
+  box-shadow: 0px 0px 10px 4px #a5a5a596;
+}
+
+.form-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.ups,
+.loading {
+  font-size: 20px;
+  color: white;
+}
+
+.title h2 {
+  text-shadow: 0px 0px 30px #ee8206;
+}
+
+.error-btn {
+  margin: 10px;
+  background-color: rgb(255, 0, 0);
+}
+
+.error-btn:hover {
+  border-color: rgb(255, 238, 0);
+}
+
+.error-btn:active {
+  background-color: rgb(255, 238, 0);
+  color: #2b2b2b;
+}
