@@ -1,34 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { fetchData } from 'src/serveces/API/fetchData.ts';
 import 'src/components/Form/Forms.scss';
-import { Results } from '../Results/Results';
+import { Person } from 'src/pages/mainPage/MainPage';
 
-interface Person {}
-
-interface FormState {
+interface FormProps {
   query: string;
+  setQuery: React.Dispatch<React.SetStateAction<string>>;
   results: Person[];
+  setResults: React.Dispatch<React.SetStateAction<Person[]>>;
   isLoading: boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const Form: React.FC<FormState> = () => {
-  const [query, setQuery] = useState('');
-  const [results, setResults] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const runFirstFetch = async (query: string) => {
-    setIsLoading(true);
-    try {
-      const request = await fetchData(query);
-      setResults(request);
-    } catch (error) {
-      error;
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
+export const Form: React.FC<FormProps> = ({ query, setQuery, setResults, setIsLoading }) => {
   useEffect(() => {
+    const runFirstFetch = async (query: string) => {
+      setIsLoading(true);
+      try {
+        const request = await fetchData(query);
+        setResults(request);
+      } catch (error) {
+        error;
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     const savedQuery = localStorage.getItem('queryData');
     if (savedQuery) {
       try {
@@ -46,7 +43,7 @@ export const Form: React.FC<FormState> = () => {
     } else {
       runFirstFetch('');
     }
-  }, []);
+  }, [setIsLoading, setQuery, setResults]);
 
   const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -90,7 +87,6 @@ export const Form: React.FC<FormState> = () => {
           search
         </button>
       </form>
-      <Results query={query} results={results} isLoading={isLoading} />
     </>
   );
 };
