@@ -14,24 +14,18 @@ interface CardProps {
   };
 }
 
-export class Card extends React.Component<CardProps> {
-  state = {};
-
-  render() {
-    const { result } = this.props;
-
-    return (
-      <>
-        <div className="card">
-          <h3>{result.name}</h3>
-          <p>{`Birth year: ${result.birth_year}`}</p>
-          <p>{`Eye color: ${result.eye_color}`}</p>
-          <p>{`Height: ${result.height}cm`}</p>
-          <p>{`Hair color: ${result.hair_color}`}</p>
-          <p>{`Gender: ${result.gender}`}</p>
-          <p>{`Mass: ${result.mass}`}</p>
-        </div>
-      </>
-    );
-  }
-}
+export const Card: React.FC<CardProps> = (props) => {
+  return (
+    <>
+      <div className="card">
+        <h3>{props.result.name}</h3>
+        <p>{`Birth year: ${props.result.birth_year}`}</p>
+        <p>{`Eye color: ${props.result.eye_color}`}</p>
+        <p>{`Height: ${props.result.height}cm`}</p>
+        <p>{`Hair color: ${props.result.hair_color}`}</p>
+        <p>{`Gender: ${props.result.gender}`}</p>
+        <p>{`Mass: ${props.result.mass}`}</p>
+      </div>
+    </>
+  );
+};
