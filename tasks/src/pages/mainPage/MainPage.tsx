@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ButtonError } from 'src/components/ButtonError/ButtonError.tsx';
 import { ErrorBoundary } from 'src/components/ErrorBoundary/ErrorBoundary.tsx';
-import { Form } from 'src/components/Form/Form.tsx';
+import { Form } from 'src/components/form/Form.tsx';
 import { Pagination } from 'src/components/Pagination/Pagination.tsx';
 import { Results } from 'src/components/Results/Results.tsx';
 

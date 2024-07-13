@@ -1,6 +1,6 @@
 import 'src/components/Pagination/Pagination.scss';
-import { Person } from 'src/pages/MainPage/MainPage.tsx';
-import { fetchData } from 'src/serveces/API/fetchData.tsx';
+import { Person } from 'src/pages/mainPage/MainPage.tsx';
+import { fetchData } from 'src/serveces/API/fetchData.ts';
 import { getPages } from 'src/serveces/tools/getPages.ts';
 
 interface PaginationProps {

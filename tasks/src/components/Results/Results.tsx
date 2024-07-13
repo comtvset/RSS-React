@@ -1,4 +1,4 @@
-import { Person } from 'src/pages/MainPage/MainPage.tsx';
+import { Person } from 'src/pages/mainPage/MainPage.tsx';
 import { Card } from '../Card/Card.tsx';
 
 interface ResultsProps {
