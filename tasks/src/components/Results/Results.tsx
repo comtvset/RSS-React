@@ -1,4 +1,4 @@
-import { Person } from 'src/pages/mainPage/MainPage';
+import { Person } from 'src/pages/MainPage/MainPage';
 import { Card } from '../Card/Card';
 
 interface ResultsProps {
