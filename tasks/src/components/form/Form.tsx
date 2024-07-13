@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { fetchData } from 'src/serveces/API/fetchData.ts';
 import 'src/components/Form/Forms.scss';
-import { Person } from 'src/pages/mainPage/MainPage';
+import { Person } from 'src/pages/MainPage/MainPage';
 
 interface FormProps {
   query: string;
