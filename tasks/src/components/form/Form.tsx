@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { fetchData } from 'src/serveces/API/fetchData.ts';
-import 'src/components/Form/Forms.scss';
-import { Person } from 'src/pages/MainPage/MainPage';
-import { getPages } from 'src/serveces/tools/getPages';
+import 'src/components/form/Forms.scss';
+import { Person } from 'src/pages/mainPage/MainPage.tsx';
+import { getPages } from 'src/serveces/tools/getPages.ts';
 
 interface FormProps {
   query: string;

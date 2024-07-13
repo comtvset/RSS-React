@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { ButtonError } from 'src/components/ButtonError/ButtonError';
-import { ErrorBoundary } from 'src/components/ErrorBoundary/ErrorBoundary';
-import { Form } from 'src/components/Form/Form';
-import { Pagination } from 'src/components/Pagination/Pagination';
-import { Results } from 'src/components/Results/Results';
+import { ButtonError } from 'src/components/ButtonError/ButtonError.tsx';
+import { ErrorBoundary } from 'src/components/ErrorBoundary/ErrorBoundary.tsx';
+import { Form } from 'src/components/form/Form';
+import { Pagination } from 'src/components/Pagination/Pagination.tsx';
+import { Results } from 'src/components/Results/Results.tsx';
 
 export interface Person {
   birth_year: string;
