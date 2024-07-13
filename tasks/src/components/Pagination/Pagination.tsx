@@ -1,7 +1,7 @@
 import 'src/components/Pagination/Pagination.scss';
-import { Person } from 'src/pages/MainPage/MainPage';
-import { fetchData } from 'src/serveces/API/fetchData';
-import { getPages } from 'src/serveces/tools/getPages';
+import { Person } from 'src/pages/MainPage/MainPage.tsx';
+import { fetchData } from 'src/serveces/API/fetchData.tsx';
+import { getPages } from 'src/serveces/tools/getPages.ts';
 
 interface PaginationProps {
   setResults: React.Dispatch<React.SetStateAction<Person[]>>;

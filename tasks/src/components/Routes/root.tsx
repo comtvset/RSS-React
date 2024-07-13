@@ -1,4 +1,4 @@
-import { App } from 'src/myApp';
+import { App } from 'src/myApp.tsx';
 
 export default function RootTest() {
   return (

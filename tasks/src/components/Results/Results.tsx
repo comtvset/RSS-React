@@ -1,5 +1,5 @@
-import { Person } from 'src/pages/MainPage/MainPage';
-import { Card } from '../Card/Card';
+import { Person } from 'src/pages/MainPage/MainPage.tsx';
+import { Card } from '../Card/Card.tsx';
 
 interface ResultsProps {
   query: string;
