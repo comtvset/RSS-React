@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { fetchData } from 'src/serveces/API/fetchData.ts';
 import 'src/components/Form/Forms.scss';
 import { Person } from 'src/pages/MainPage/MainPage';
+import { getPages } from 'src/serveces/tools/getPages';
 
 interface FormProps {
   query: string;
@@ -10,15 +11,25 @@ interface FormProps {
   setResults: React.Dispatch<React.SetStateAction<Person[]>>;
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setCountPage: React.Dispatch<React.SetStateAction<string[]>>;
+  setActivePage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const Form: React.FC<FormProps> = ({ query, setQuery, setResults, setIsLoading }) => {
+export const Form: React.FC<FormProps> = ({
+  query,
+  setQuery,
+  setResults,
+  setIsLoading,
+  setCountPage,
+  setActivePage,
+}) => {
   useEffect(() => {
     const runFirstFetch = async (query: string) => {
       setIsLoading(true);
       try {
-        const request = await fetchData(query);
-        setResults(request);
+        const data = await fetchData(query);
+        setCountPage(getPages(data.count));
+        setResults(data.results);
       } catch (error) {
         error;
       } finally {
@@ -43,7 +54,7 @@ export const Form: React.FC<FormProps> = ({ query, setQuery, setResults, setIsLo
     } else {
       runFirstFetch('');
     }
-  }, [setIsLoading, setQuery, setResults]);
+  }, [setIsLoading, setQuery, setResults, setCountPage]);
 
   const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -51,8 +62,11 @@ export const Form: React.FC<FormProps> = ({ query, setQuery, setResults, setIsLo
     localStorage.setItem('queryData', JSON.stringify(searchData));
     setIsLoading(true);
     try {
-      const results = await fetchData(query);
-      setResults(results);
+      const data = await fetchData(query);
+      setCountPage(getPages(data.count));
+      setActivePage('1');
+      localStorage.setItem('queryDataPage', JSON.stringify('1'));
+      setResults(data.results);
     } catch (error) {
       error;
     } finally {
