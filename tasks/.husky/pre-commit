@@ -1,2 +1,3 @@
 npx --prefix tasks lint-staged
+npm --prefix tasks run lint
 npm --prefix tasks run test
