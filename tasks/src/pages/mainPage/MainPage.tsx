@@ -6,6 +6,7 @@ import { Pagination } from 'src/components/Pagination/Pagination.tsx';
 import { Results } from 'src/components/Results/Results.tsx';
 import 'src/pages/mainPage/MainPage.scss';
 import { Outlet, useNavigate } from 'react-router-dom';
+import { CustomHook } from 'src/components/myCustomHook/myCustomHook';
 
 export interface Person {
   birth_year: string;
@@ -21,7 +22,6 @@ export interface Person {
 }
 
 export const Main: React.FC = () => {
-  const [query, setQuery] = useState<string>('');
   const [results, setResults] = useState<Person[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [countPage, setCountPage] = useState<string[]>([]);
@@ -29,6 +29,8 @@ export const Main: React.FC = () => {
   const [activeCard, setActiveCard] = useState<Person | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const navigate = useNavigate();
+
+  const [query, setQuery] = CustomHook();
 
   useEffect(() => {
     navigate(`/?search=${query}&page=${activePage}`);
