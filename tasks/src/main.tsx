@@ -4,6 +4,7 @@ import 'src/index.scss';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import RootTest from './components/Routes/root.tsx';
 import ErrorPage from './pages/ErrorPage/ErrorPage.tsx';
+import { DetailWindow } from './components/DetailWindow/DetailWindow.tsx';
 
 const rootElement = document.createElement('div');
 rootElement.id = 'root';
@@ -14,6 +15,12 @@ const router = createBrowserRouter([
     path: '/',
     element: <RootTest />,
     errorElement: <ErrorPage />,
+    children: [
+      {
+        path: 'details/:id',
+        element: <DetailWindow />,
+      },
+    ],
   },
 ]);
 

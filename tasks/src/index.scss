@@ -33,6 +33,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 h1 {
@@ -59,4 +60,10 @@ button:hover {
 
 button:active {
   background-color: #646cff;
+}
+
+@media (width < 901px) {
+  #root {
+    padding: 0 !important;
+  }
 }
