@@ -1,6 +1,5 @@
 export const fetchData = async (query: string = '', page: string = '1') => {
   const url = `https://swapi.dev/api/people/?search=${query}&page=${page}`;
-
   try {
     const response = await fetch(url);
     if (!response.ok) {

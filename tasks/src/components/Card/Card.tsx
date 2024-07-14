@@ -1,30 +1,27 @@
 import React from 'react';
 import 'src/components/Card/Card.scss';
+import { Person } from 'src/pages/mainPage/MainPage';
 
 interface CardProps {
-  result: {
-    birth_year: string;
-    eye_color: string;
-    films: string[];
-    name: string;
-    height: string;
-    hair_color: string;
-    gender: string;
-    mass: string;
-  };
+  result: Person;
+  setActiveCard: (card: Person | null) => void;
 }
 
-export const Card: React.FC<CardProps> = (props) => {
+export const Card: React.FC<CardProps> = ({ result, setActiveCard }) => {
+  const handleClick = () => {
+    setActiveCard(result);
+  };
+
   return (
     <>
-      <div className="card">
-        <h3>{props.result.name}</h3>
-        <p>{`Birth year: ${props.result.birth_year}`}</p>
-        <p>{`Eye color: ${props.result.eye_color}`}</p>
-        <p>{`Height: ${props.result.height}cm`}</p>
-        <p>{`Hair color: ${props.result.hair_color}`}</p>
-        <p>{`Gender: ${props.result.gender}`}</p>
-        <p>{`Mass: ${props.result.mass}`}</p>
+      <div className="card" onClick={handleClick}>
+        <h3>{result.name}</h3>
+        <p>{`Birth year: ${result.birth_year}`}</p>
+        <p>{`Eye color: ${result.eye_color}`}</p>
+        <p>{`Height: ${result.height}cm`}</p>
+        <p>{`Hair color: ${result.hair_color}`}</p>
+        <p>{`Gender: ${result.gender}`}</p>
+        <p>{`Mass: ${result.mass}`}</p>
       </div>
     </>
   );

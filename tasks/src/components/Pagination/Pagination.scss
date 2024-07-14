@@ -26,3 +26,9 @@
   color: grey;
   cursor: default;
 }
+
+@media (width < 400px) {
+  .page {
+    margin: 1px;
+  }
+}
