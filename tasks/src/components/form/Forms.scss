@@ -32,6 +32,12 @@
   color: white;
 }
 
+.title {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 10;
+}
+
 .title h2 {
   text-shadow: 0px 0px 30px #ee8206;
 }

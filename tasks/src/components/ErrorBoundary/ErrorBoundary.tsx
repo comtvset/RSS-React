@@ -24,6 +24,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
 
   handleReturnClick = () => {
     this.setState({ error: null, errorInfo: null });
+    localStorage.setItem('queryDataPage', JSON.stringify('1'));
   };
 
   render() {

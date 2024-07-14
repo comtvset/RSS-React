@@ -1,114 +1,106 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { fetchData } from 'src/serveces/API/fetchData.ts';
-import { Card } from 'src/components/Card/Card';
 import 'src/components/form/Forms.scss';
+import { Person } from 'src/pages/mainPage/MainPage.tsx';
+import { getPages } from 'src/serveces/tools/getPages.ts';
 
-interface Person {}
-
-interface FormState {
+interface FormProps {
   query: string;
+  setQuery: React.Dispatch<React.SetStateAction<string>>;
   results: Person[];
+  setResults: React.Dispatch<React.SetStateAction<Person[]>>;
   isLoading: boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setCountPage: React.Dispatch<React.SetStateAction<string[]>>;
+  setActivePage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export class Form extends React.Component<object, FormState> {
-  state = {
-    query: '',
-    results: [],
-    isLoading: false,
-  };
+export const Form: React.FC<FormProps> = ({
+  query,
+  setQuery,
+  setResults,
+  setIsLoading,
+  setCountPage,
+  setActivePage,
+}) => {
+  useEffect(() => {
+    const runFirstFetch = async (query: string) => {
+      setIsLoading(true);
+      try {
+        const data = await fetchData(query);
+        setCountPage(getPages(data.count));
+        setResults(data.results);
+      } catch (error) {
+        error;
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  private runFirstFetch = async (query: string) => {
-    this.setState({ isLoading: true });
-    try {
-      const results = await fetchData(query);
-      this.setState({ results });
-    } catch (error) {
-      error;
-    } finally {
-      this.setState({ isLoading: false });
-    }
-  };
-
-  componentDidMount() {
     const savedQuery = localStorage.getItem('queryData');
-
     if (savedQuery) {
       try {
         const localStorageData = JSON.parse(savedQuery);
         if (localStorageData.query === '') {
-          this.runFirstFetch('');
+          runFirstFetch('');
         } else {
-          this.setState({ query: localStorageData.query }, () => {
-            this.runFirstFetch(localStorageData.query);
-          });
+          setQuery(localStorageData.query);
+          runFirstFetch(localStorageData.query);
         }
       } catch (error) {
         error;
-        this.runFirstFetch('');
+        runFirstFetch('');
       }
     } else {
-      this.runFirstFetch('');
+      runFirstFetch('');
     }
-  }
+  }, [setIsLoading, setQuery, setResults, setCountPage]);
 
-  handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    const { query } = this.state;
     const searchData = { query };
     localStorage.setItem('queryData', JSON.stringify(searchData));
-    this.setState({ isLoading: true });
+    setIsLoading(true);
     try {
-      const results = await fetchData(query);
-      this.setState({ results });
+      const data = await fetchData(query);
+      setCountPage(getPages(data.count));
+      setActivePage('1');
+      localStorage.setItem('queryDataPage', JSON.stringify('1'));
+      setResults(data.results);
     } catch (error) {
       error;
     } finally {
-      this.setState({ isLoading: false });
+      setIsLoading(false);
     }
   };
 
-  handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const trimmedValue = event.target.value.trim();
-    this.setState({ query: trimmedValue });
+    setQuery(trimmedValue);
   };
 
-  render() {
-    return (
-      <>
-        <form className="form-form" id="searchForm">
-          <label htmlFor="search" />
-          <input
-            className="form-input"
-            type="text"
-            id="search"
-            name="search"
-            value={this.state.query}
-            onChange={this.handleInputChange}
-          />
+  return (
+    <>
+      <form className="form-form" id="searchForm">
+        <label htmlFor="search" />
+        <input
+          className="form-input"
+          type="text"
+          id="search"
+          name="search"
+          value={query}
+          onChange={handleInputChange}
+        />
 
-          <button
-            type="submit"
-            onClick={(event) => {
-              this.handleClick(event);
-            }}
-          >
-            search
-          </button>
-        </form>
-        <div className="title">
-          <h2>Search Results:</h2>
-          <div className="cards-container">
-            {this.state.isLoading ? (
-              <p className="loading">Loading...</p>
-            ) : this.state.results.length === 0 ? (
-              <p className="ups">ups...</p>
-            ) : (
-              this.state.results.map((result, index) => <Card key={index} result={result} />)
-            )}
-          </div>
-        </div>
-      </>
-    );
-  }
-}
+        <button
+          type="submit"
+          onClick={(event) => {
+            handleClick(event);
+          }}
+        >
+          search
+        </button>
+      </form>
+    </>
+  );
+};
