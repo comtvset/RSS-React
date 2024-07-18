@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 
 export const CustomHook = (): [string, React.Dispatch<React.SetStateAction<string>>] => {
   const [inputValue, setInputValue] = useState(() => {
-    const savedValue = localStorage.getItem('queryData');
-    if (savedValue) {
+    const savedQuery = localStorage.getItem('queryData');
+    if (savedQuery) {
       try {
-        const parsedValue = JSON.parse(savedValue);
+        const parsedValue = JSON.parse(savedQuery);
         return parsedValue.query ?? '';
       } catch (error) {
         error;

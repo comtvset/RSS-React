@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { fetchData } from 'src/serveces/API/fetchData.ts';
-import 'src/components/form/Forms.scss';
+import style from 'src/components/form/Forms.module.scss';
 import { Person } from 'src/pages/mainPage/MainPage.tsx';
 import { getPages } from 'src/serveces/tools/getPages.ts';
 
@@ -24,10 +24,10 @@ export const Form: React.FC<FormProps> = ({
   setActivePage,
 }) => {
   useEffect(() => {
-    const runFirstFetch = async (query: string) => {
+    const fetchInitialData = async () => {
       setIsLoading(true);
       try {
-        const data = await fetchData(query);
+        const data = await fetchData('');
         setCountPage(getPages(data.count));
         setResults(data.results);
       } catch (error) {
@@ -37,24 +37,8 @@ export const Form: React.FC<FormProps> = ({
       }
     };
 
-    const savedQuery = localStorage.getItem('queryData');
-    if (savedQuery) {
-      try {
-        const localStorageData = JSON.parse(savedQuery);
-        if (localStorageData.query === '') {
-          runFirstFetch('');
-        } else {
-          setQuery(localStorageData.query);
-          runFirstFetch(localStorageData.query);
-        }
-      } catch (error) {
-        error;
-        runFirstFetch('');
-      }
-    } else {
-      runFirstFetch('');
-    }
-  }, [setIsLoading, setQuery, setResults, setCountPage]);
+    fetchInitialData();
+  }, [setCountPage, setIsLoading, setResults]);
 
   const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -81,10 +65,10 @@ export const Form: React.FC<FormProps> = ({
 
   return (
     <>
-      <form className="form-form" id="searchForm">
+      <form className={style.formForm} id="searchForm">
         <label htmlFor="search" />
         <input
-          className="form-input"
+          className={style.formInput}
           type="text"
           id="search"
           name="search"

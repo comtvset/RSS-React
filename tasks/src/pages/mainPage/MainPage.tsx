@@ -4,9 +4,9 @@ import { ErrorBoundary } from 'src/components/ErrorBoundary/ErrorBoundary.tsx';
 import { Form } from 'src/components/form/Form';
 import { Pagination } from 'src/components/Pagination/Pagination.tsx';
 import { Results } from 'src/components/Results/Results.tsx';
-import 'src/pages/mainPage/MainPage.scss';
+import style from 'src/pages/mainPage/MainPage.module.scss';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { CustomHook } from 'src/components/myCustomHook/myCustomHook';
+import { CustomHook } from 'src/hooks/myCustomHook';
 
 export interface Person {
   birth_year: string;
@@ -56,7 +56,7 @@ export const Main: React.FC = () => {
           setCountPage={setCountPage}
           setActivePage={setActivePage}
         />
-        <div className="infoContainer">
+        <div className={style.infoContainer}>
           <Results
             query={query}
             results={results}

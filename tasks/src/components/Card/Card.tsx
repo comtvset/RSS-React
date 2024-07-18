@@ -1,5 +1,5 @@
 import React from 'react';
-import 'src/components/Card/Card.scss';
+import style from 'src/components/Card/Card.module.scss';
 import { Person } from 'src/pages/mainPage/MainPage';
 
 interface CardProps {
@@ -14,7 +14,7 @@ export const Card: React.FC<CardProps> = ({ result, setActiveCard }) => {
 
   return (
     <>
-      <div className="card" onClick={handleClick}>
+      <div className={style.card} onClick={handleClick}>
         <h3>{result.name}</h3>
         <p>{`Birth year: ${result.birth_year}`}</p>
         <p>{`Eye color: ${result.eye_color}`}</p>
