@@ -44,8 +44,8 @@
 .cross {
   cursor: pointer;
   position: relative;
-  top: 5px;
-  left: 140px;
+  display: flex;
+  flex-direction: row-reverse;
 }
 
 @media (width < 901px) {
