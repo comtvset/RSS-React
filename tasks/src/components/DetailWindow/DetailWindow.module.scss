@@ -29,9 +29,9 @@
 .bord::before {
   content: '';
   position: absolute;
-  top: 0px;
+  top: 5px;
   left: 0px;
-  height: 40vh;
+  height: 43vh;
   border-left: 3px solid rgb(228, 216, 47);
   border-radius: 15px;
   animation: fadeInOutFast 0.5s ease-in-out infinite;
@@ -60,7 +60,7 @@
   }
 
   .bord::before {
-    opacity: 0;
+    display: none;
   }
 }
 
