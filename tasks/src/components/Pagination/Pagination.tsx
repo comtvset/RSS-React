@@ -1,4 +1,4 @@
-import 'src/components/Pagination/Pagination.scss';
+import style from 'src/components/Pagination/Pagination.module.scss';
 import { Person } from 'src/pages/mainPage/MainPage.tsx';
 import { fetchData } from 'src/serveces/API/fetchData.ts';
 import { getPages } from 'src/serveces/tools/getPages.ts';
@@ -58,9 +58,9 @@ export const Pagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <div className="pageContainer">
+    <div className={style.pageContainer}>
       <div
-        className={`page ${Number(activePage) === 1 ? 'disabled' : ''}`}
+        className={`${style.page} ${Number(activePage) === 1 ? style.disabled : ''}`}
         onClick={() => {
           if (Number(activePage) > 1) handleClick(String(Number(activePage) - 1));
         }}
@@ -70,7 +70,7 @@ export const Pagination: React.FC<PaginationProps> = ({
       {countPage.map((page, index) => (
         <div
           key={index}
-          className={`page ${page === activePage ? 'pageActive' : ''}`}
+          className={`${style.page} ${page === activePage ? style.pageActive : ''}`}
           onClick={() => {
             handleClick(page);
           }}
@@ -79,7 +79,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         </div>
       ))}
       <div
-        className={`page ${Number(activePage) === countPage.length ? 'disabled' : ''}`}
+        className={`${style.page} ${Number(activePage) === countPage.length ? style.disabled : ''}`}
         onClick={() => {
           if (Number(activePage) < countPage.length) next(activePage);
         }}

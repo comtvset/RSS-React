@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import 'src/components/DetailWindow/DetailWindow.scss';
+import style from 'src/components/DetailWindow/DetailWindow.module.scss';
 import { Person } from 'src/pages/mainPage/MainPage';
 import { useParams, useNavigate, useOutletContext } from 'react-router-dom';
 import { fetchData } from 'src/serveces/API/fetchData.ts';
@@ -61,20 +61,20 @@ export const DetailWindow: React.FC = () => {
   };
 
   return (
-    <div className="bord">
-      <div className="detailContainer">
-        <span className="cross" onClick={handleClick}>
+    <div className={style.bord}>
+      <div className={style.detailContainer}>
+        <span className={style.cross} onClick={handleClick}>
           ❌
         </span>
         <h3>{activeCard.name}</h3>
-        <p>{`Birth year: ${activeCard.birth_year}`}</p>
-        <p>{`Eye color: ${activeCard.eye_color}`}</p>
-        <p>{`Height: ${activeCard.height}cm`}</p>
-        <p>{`Homeworld: ${activeCard.homeworld}`}</p>
-        <p>{`Hair color: ${activeCard.hair_color}`}</p>
-        <p>{`Gender: ${activeCard.gender}`}</p>
-        <p>{`Mass: ${activeCard.mass}`}</p>
-        <p>{`Url: ${activeCard.url}`}</p>
+        <p>Birth year: {activeCard.birth_year}</p>
+        <p>Eye color: {activeCard.eye_color}</p>
+        <p>Height: {activeCard.height}cm</p>
+        <p>Homeworld: {activeCard.homeworld}</p>
+        <p>Hair color: {activeCard.hair_color}</p>
+        <p>Gender: {activeCard.gender}</p>
+        <p>Mass: {activeCard.mass}</p>
+        <p>Url: {activeCard.url}</p>
       </div>
     </div>
   );

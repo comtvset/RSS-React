@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import style from 'src/components/form/Forms.module.scss';
 
 interface ErrorState {
   cusomError: string;
@@ -17,7 +18,7 @@ export const ButtonError: React.FC<ErrorState> = ({ cusomError }) => {
   }
   return (
     <>
-      <button className="error-btn" onClick={handleClickError}>
+      <button className={style.errorBtn} onClick={handleClickError}>
         Error
       </button>
     </>

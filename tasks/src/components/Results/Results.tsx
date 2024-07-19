@@ -1,6 +1,7 @@
 import { Person } from 'src/pages/mainPage/MainPage.tsx';
 import { Card } from '../Card/Card.tsx';
 import { useNavigate } from 'react-router-dom';
+import style from 'src/components/form/Forms.module.scss';
 
 interface ResultsProps {
   query: string;
@@ -32,13 +33,13 @@ export const Results: React.FC<ResultsProps> = ({
   };
   return (
     <>
-      <div className="title" onClick={handleClick}>
+      <div className={style.title} onClick={handleClick}>
         <h2>Search Results:</h2>
-        <div className="cards-container">
+        <div className={style.cardsContainer}>
           {isLoading ? (
-            <p className="loading">Loading...</p>
+            <p className={style.loading}>Loading...</p>
           ) : results.length === 0 ? (
-            <p className="ups">ups...</p>
+            <p className={style.ups}>ups...</p>
           ) : (
             results.map((result, index) => (
               <Card key={index} result={result} setActiveCard={() => setActiveCard(result)} />
