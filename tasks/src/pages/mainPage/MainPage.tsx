@@ -77,7 +77,7 @@ export const Main: React.FC = () => {
           activePage={activePage}
           setActivePage={setActivePage}
         />
-        <ButtonError cusomError="My custom Error" />
+        <ButtonError customError="My custom Error" />
       </ErrorBoundary>
     </>
   );
