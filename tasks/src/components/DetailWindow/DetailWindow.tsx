@@ -17,48 +17,63 @@ export const DetailWindow: React.FC = () => {
   const { setActiveCard, activeCard, setIsOpen, activePage, query } =
     useOutletContext<DetailContext>();
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const runFirstFetch = async () => {
       try {
         const data = await fetchData(id);
-        const card: Person = {
-          name: data.results[0].name,
-          birth_year: data.results[0].birth_year,
-          eye_color: data.results[0].eye_color,
-          films: data.results[0].films,
-          height: data.results[0].height,
-          homeworld: data.results[0].homeworld,
-          hair_color: data.results[0].hair_color,
-          gender: data.results[0].gender,
-          mass: data.results[0].mass,
-          url: data.results[0].url,
-        };
-        setActiveCard(card);
-        setLoading(false);
+        if (data?.results?.length > 0) {
+          const card: Person = {
+            name: data.results[0].name,
+            birth_year: data.results[0].birth_year,
+            eye_color: data.results[0].eye_color,
+            films: data.results[0].films,
+            height: data.results[0].height,
+            homeworld: data.results[0].homeworld,
+            hair_color: data.results[0].hair_color,
+            gender: data.results[0].gender,
+            mass: data.results[0].mass,
+            url: data.results[0].url,
+          };
+          setActiveCard(card);
+        } else {
+          setError('No data found.');
+        }
       } catch (error) {
-        error;
+        setError('Failed to fetch data. Please try again later.');
+      } finally {
         setLoading(false);
       }
     };
 
-    runFirstFetch();
+    if (id) {
+      runFirstFetch();
+    }
   }, [id, setActiveCard]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!activeCard) {
-    return null;
-  }
 
   const handleClick = () => {
     setActiveCard(null);
     navigate(`/?search=${query}&page=${activePage}`);
     setIsOpen(false);
   };
+
+  if (loading) {
+    return <div className={style.loading}>Loading...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className={style.error} data-testid="error-message">
+        {error}
+      </div>
+    );
+  }
+
+  if (!activeCard) {
+    return null;
+  }
 
   return (
     <div className={style.bord}>
@@ -74,7 +89,7 @@ export const DetailWindow: React.FC = () => {
         <p>Hair color: {activeCard.hair_color}</p>
         <p>Gender: {activeCard.gender}</p>
         <p>Mass: {activeCard.mass}</p>
-        <p>Url: {activeCard.url}</p>
+        <p>URL: {activeCard.url}</p>
       </div>
     </div>
   );
