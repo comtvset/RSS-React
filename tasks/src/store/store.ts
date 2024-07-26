@@ -4,6 +4,7 @@ import resultReducer from 'src/store/resultSlice';
 import loadingReducer from 'src/store/loadingSlice';
 import countReducer from 'src/store/countSlice';
 import activeCardReducer from 'src/store/activeCardSlice';
+import checkedCardSliceReducer from 'src/store/checkedCardSlice';
 
 import { starWarsAPI } from 'src/serveces/API/starWarsAPI';
 
@@ -15,6 +16,7 @@ export const store = configureStore({
     loading: loadingReducer,
     count: countReducer,
     activeCard: activeCardReducer,
+    checkedCard: checkedCardSliceReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(starWarsAPI.middleware),
 });
