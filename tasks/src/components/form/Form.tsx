@@ -1,67 +1,62 @@
-import React, { useEffect } from 'react';
-import { fetchData } from 'src/serveces/API/fetchData.ts';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import style from 'src/components/form/Forms.module.scss';
-import { Person } from 'src/pages/mainPage/MainPage.tsx';
+import { CustomHook } from 'src/hooks/myCustomHook';
 import { getPages } from 'src/serveces/tools/getPages.ts';
+import { useLazyGetQueryQuery } from 'src/store';
+import { RootState, AppDispatch } from 'src/store';
+import { setInputSlice } from 'src/store/inputSlice';
+import { setLoadingSlice } from 'src/store/loadingSlice';
+import { setResultSlice } from 'src/store/resultSlice';
+import { setCountSlice } from 'src/store/countSlice';
 
 interface FormProps {
-  query: string;
-  setQuery: React.Dispatch<React.SetStateAction<string>>;
-  results: Person[];
-  setResults: React.Dispatch<React.SetStateAction<Person[]>>;
-  isLoading: boolean;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  setCountPage: React.Dispatch<React.SetStateAction<string[]>>;
   setActivePage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const Form: React.FC<FormProps> = ({
-  query,
-  setQuery,
-  setResults,
-  setIsLoading,
-  setCountPage,
-  setActivePage,
-}) => {
-  useEffect(() => {
-    const fetchInitialData = async () => {
-      setIsLoading(true);
-      try {
-        const data = await fetchData('');
-        setCountPage(getPages(data.count));
-        setResults(data.results);
-      } catch (error) {
-        error;
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchInitialData();
-  }, [setCountPage, setIsLoading, setResults]);
+export const Form: React.FC<FormProps> = ({ setActivePage }) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const userQuery = useSelector((state: RootState) => state.input.input);
+  const [trigger] = useLazyGetQueryQuery();
+  const navigate = useNavigate();
+  const [inputValue, setInputValue] = CustomHook();
 
   const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    const searchData = { query };
-    localStorage.setItem('queryData', JSON.stringify(searchData));
-    setIsLoading(true);
+    setActivePage('1');
+    const searchData = { userQuery };
+    dispatch(setLoadingSlice(true));
+    setInputValue(searchData.userQuery);
+
     try {
-      const data = await fetchData(query);
-      setCountPage(getPages(data.count));
-      setActivePage('1');
-      localStorage.setItem('queryDataPage', JSON.stringify('1'));
-      setResults(data.results);
+      const response = await trigger({ userQuery: userQuery, page: '1' }).unwrap();
+
+      navigate(`/?search=${userQuery}&page=${'1'}`);
+
+      dispatch(setResultSlice(response.results));
+      const pages = getPages(response.count);
+      dispatch(setCountSlice(pages));
+
+      localStorage.setItem('pageData', JSON.stringify('1'));
     } catch (error) {
       error;
     } finally {
-      setIsLoading(false);
+      dispatch(setLoadingSlice(false));
     }
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const trimmedValue = event.target.value.trim();
-    setQuery(trimmedValue);
+    setInputValue(trimmedValue);
+    dispatch(setInputSlice(trimmedValue));
   };
+
+  useEffect(() => {
+    if (inputValue !== userQuery) {
+      dispatch(setInputSlice(inputValue));
+    }
+  }, [inputValue, dispatch, userQuery]);
 
   return (
     <>
@@ -72,7 +67,7 @@ export const Form: React.FC<FormProps> = ({
           type="text"
           id="search"
           name="search"
-          value={query}
+          value={inputValue}
           onChange={handleInputChange}
         />
 

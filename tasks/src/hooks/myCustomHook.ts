@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 
 export const CustomHook = (): [string, React.Dispatch<React.SetStateAction<string>>] => {
   const [inputValue, setInputValue] = useState(() => {
-    const savedQuery = localStorage.getItem('queryData');
+    const savedQuery = localStorage.getItem('inputData');
     if (savedQuery) {
       try {
         const parsedValue = JSON.parse(savedQuery);
-        return parsedValue.query ?? '';
+        return parsedValue.userQuery ?? '';
       } catch (error) {
         error;
       }
@@ -15,7 +15,7 @@ export const CustomHook = (): [string, React.Dispatch<React.SetStateAction<strin
   });
 
   useEffect(() => {
-    localStorage.setItem('queryData', JSON.stringify({ query: inputValue }));
+    localStorage.setItem('inputData', JSON.stringify({ userQuery: inputValue }));
   }, [inputValue]);
 
   return [inputValue, setInputValue];

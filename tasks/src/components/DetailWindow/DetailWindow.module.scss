@@ -26,17 +26,6 @@
   padding-left: 20px;
 }
 
-.bord::before {
-  content: '';
-  position: absolute;
-  top: 5px;
-  left: 0px;
-  height: 43vh;
-  border-left: 3px solid rgb(228, 216, 47);
-  border-radius: 15px;
-  animation: fadeInOutFast 0.5s ease-in-out infinite;
-}
-
 .detailContainer h3 {
   color: rgb(5, 5, 5);
 }
@@ -55,6 +44,9 @@
 }
 
 .loading {
+  font-size: 20px;
+  color: white;
+  margin: 0;
   animation: fadeInOutFast 0.5s ease-in-out infinite;
 }
 
@@ -81,20 +73,6 @@
 
   50% {
     opacity: 0.7;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeInOutFast {
-  0% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0.4;
   }
 
   100% {

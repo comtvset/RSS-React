@@ -2,6 +2,8 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, Mock } from 'vitest';
 import { useRouteError } from 'react-router-dom';
 import ErrorPage from 'src/pages/ErrorPage/ErrorPage';
+import '@testing-library/jest-dom';
+
 vi.mock('react-router-dom', () => ({
   useRouteError: vi.fn(),
 }));

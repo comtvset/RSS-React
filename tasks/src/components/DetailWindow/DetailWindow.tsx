@@ -2,28 +2,30 @@ import React, { useEffect, useState } from 'react';
 import style from 'src/components/DetailWindow/DetailWindow.module.scss';
 import { Person } from 'src/pages/mainPage/MainPage';
 import { useParams, useNavigate, useOutletContext } from 'react-router-dom';
-import { fetchData } from 'src/serveces/API/fetchData.ts';
+import { AppDispatch, RootState, useLazyGetQueryQuery } from 'src/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { setActiveCard } from 'src/store/activeCardSlice';
 
 interface DetailContext {
-  setActiveCard: (card: Person | null) => void;
-  activeCard: Person | null;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   activePage: string;
-  query: string;
+  inputValue: string;
 }
 
 export const DetailWindow: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { setActiveCard, activeCard, setIsOpen, activePage, query } =
-    useOutletContext<DetailContext>();
+  const { setIsOpen, activePage, inputValue } = useOutletContext<DetailContext>();
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const activeCard = useSelector((state: RootState) => state.activeCard.activeCard);
 
+  const [trigger] = useLazyGetQueryQuery();
   useEffect(() => {
     const runFirstFetch = async () => {
       try {
-        const data = await fetchData(id);
+        const data = await trigger({ userQuery: id, page: '1' }).unwrap();
         if (data?.results?.length > 0) {
           const card: Person = {
             name: data.results[0].name,
@@ -37,7 +39,7 @@ export const DetailWindow: React.FC = () => {
             mass: data.results[0].mass,
             url: data.results[0].url,
           };
-          setActiveCard(card);
+          dispatch(setActiveCard(card));
         } else {
           setError('No data found.');
         }
@@ -51,11 +53,11 @@ export const DetailWindow: React.FC = () => {
     if (id) {
       runFirstFetch();
     }
-  }, [id, setActiveCard]);
+  }, [dispatch, id, trigger]);
 
   const handleClick = () => {
-    setActiveCard(null);
-    navigate(`/?search=${query}&page=${activePage}`);
+    dispatch(setActiveCard(null));
+    navigate(`/?search=${inputValue}&page=${activePage}`);
     setIsOpen(false);
   };
 
