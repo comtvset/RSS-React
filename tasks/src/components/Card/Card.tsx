@@ -1,15 +1,23 @@
 import React from 'react';
 import style from 'src/components/Card/Card.module.scss';
 import { Person } from 'src/pages/mainPage/MainPage';
+import { setActiveCard } from 'src/store/activeCardSlice.ts';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from 'src/store';
+import { useNavigate } from 'react-router-dom';
 
 interface CardProps {
   result: Person;
-  setActiveCard: (card: Person | null) => void;
 }
 
-export const Card: React.FC<CardProps> = ({ result, setActiveCard }) => {
+export const Card: React.FC<CardProps> = ({ result }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
   const handleClick = () => {
-    setActiveCard(result);
+    const smt = dispatch(setActiveCard(result));
+    if (smt) {
+      navigate(`/details/${result.name}`);
+    }
   };
 
   return (

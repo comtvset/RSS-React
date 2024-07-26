@@ -1,58 +1,70 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import style from 'src/components/Pagination/Pagination.module.scss';
-import { Person } from 'src/pages/mainPage/MainPage.tsx';
-import { fetchData } from 'src/serveces/API/fetchData.ts';
+import { CustomHook } from 'src/hooks/myCustomHook';
 import { getPages } from 'src/serveces/tools/getPages.ts';
+import { AppDispatch, RootState, useGetQueryQuery, useLazyGetQueryQuery } from 'src/store';
+import { setResultSlice } from 'src/store/resultSlice';
+import { setCountSlice } from 'src/store/countSlice';
+import { setLoadingSlice } from 'src/store/loadingSlice';
 
 interface PaginationProps {
-  setResults: React.Dispatch<React.SetStateAction<Person[]>>;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  countPage: string[];
-  setCountPage: React.Dispatch<React.SetStateAction<string[]>>;
-  query: string;
   activePage: string;
   setActivePage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const Pagination: React.FC<PaginationProps> = ({
-  setResults,
-  setIsLoading,
-  countPage,
-  setCountPage,
-  query,
-  activePage,
-  setActivePage,
-}) => {
-  const handleClick = async (page: string) => {
-    setIsLoading(true);
+export const Pagination: React.FC<PaginationProps> = ({ activePage, setActivePage }) => {
+  const [inputValue, setInputValue] = CustomHook();
+  const userQuery = inputValue;
+  const currentUserQuery = useSelector((state: RootState) => state.input.input);
+  const countPage = useSelector((state: RootState) => state.count.count);
 
+  const dispatch = useDispatch<AppDispatch>();
+  const [trigger] = useLazyGetQueryQuery();
+  const { data } = useGetQueryQuery({ userQuery, page: activePage });
+
+  useEffect(() => {
+    if (data) {
+      const pages = getPages(data.count);
+      dispatch(setCountSlice(pages));
+      dispatch(setResultSlice(data.results));
+    }
+  }, [data, dispatch]);
+
+  const handleClick = async (page: string) => {
+    dispatch(setLoadingSlice(true));
     try {
-      const data = await fetchData(query, page);
-      localStorage.setItem('queryDataPage', JSON.stringify(page));
-      setCountPage(getPages(data.count));
-      setResults(data.results);
+      const response = await trigger({ userQuery: currentUserQuery, page }).unwrap();
+      localStorage.setItem('pageData', JSON.stringify(page));
+      dispatch(setResultSlice(response.results));
+      const pages = getPages(response.count);
+      dispatch(setCountSlice(pages));
       setActivePage(page);
+      setInputValue(currentUserQuery);
     } catch (error) {
       error;
     } finally {
-      setIsLoading(false);
+      dispatch(setLoadingSlice(false));
     }
   };
 
   const next = async (page: string) => {
-    setIsLoading(true);
+    dispatch(setLoadingSlice(true));
     const pageNumber = Number(page) + 1;
-
     if (countPage.length + 1 !== pageNumber) {
       try {
-        const data = await fetchData(query, String(pageNumber));
-        localStorage.setItem('queryDataPage', JSON.stringify(String(pageNumber)));
-        setCountPage(getPages(data.count));
-        setResults(data.results);
+        const pageStr = pageNumber.toString();
+        const response = await trigger({ userQuery: currentUserQuery, page: pageStr }).unwrap();
+        localStorage.setItem('pageData', JSON.stringify(pageStr));
+        dispatch(setResultSlice(response.results));
+        const pages = getPages(response.count);
+        dispatch(setCountSlice(pages));
         setActivePage(String(pageNumber));
+        setInputValue(currentUserQuery);
       } catch (error) {
         error;
       } finally {
-        setIsLoading(false);
+        dispatch(setLoadingSlice(false));
       }
     }
   };
