@@ -7,6 +7,7 @@ import { AppDispatch, RootState, useGetQueryQuery, useLazyGetQueryQuery } from '
 import { setResultSlice } from 'src/store/resultSlice';
 import { setCountSlice } from 'src/store/countSlice';
 import { setLoadingSlice } from 'src/store/loadingSlice';
+import { useTheme } from 'src/context/useTheme';
 
 interface PaginationProps {
   activePage: string;
@@ -22,6 +23,7 @@ export const Pagination: React.FC<PaginationProps> = ({ activePage, setActivePag
   const dispatch = useDispatch<AppDispatch>();
   const [trigger] = useLazyGetQueryQuery();
   const { data } = useGetQueryQuery({ userQuery, page: activePage });
+  const { themeStyles } = useTheme();
 
   useEffect(() => {
     if (data) {
@@ -72,7 +74,7 @@ export const Pagination: React.FC<PaginationProps> = ({ activePage, setActivePag
   return (
     <div className={style.pageContainer}>
       <div
-        className={`${style.page} ${Number(activePage) === 1 ? style.disabled : ''}`}
+        className={`${style.page} ${themeStyles.page} ${Number(activePage) === 1 ? style.disabled : ''}`}
         onClick={() => {
           if (Number(activePage) > 1) handleClick(String(Number(activePage) - 1));
         }}
@@ -82,7 +84,7 @@ export const Pagination: React.FC<PaginationProps> = ({ activePage, setActivePag
       {countPage.map((page, index) => (
         <div
           key={index}
-          className={`${style.page} ${page === activePage ? style.pageActive : ''}`}
+          className={`${style.page} ${themeStyles.page} ${page === activePage ? style.pageActive : ''}`}
           onClick={() => {
             handleClick(page);
           }}
@@ -91,7 +93,7 @@ export const Pagination: React.FC<PaginationProps> = ({ activePage, setActivePag
         </div>
       ))}
       <div
-        className={`${style.page} ${Number(activePage) === countPage.length ? style.disabled : ''}`}
+        className={`${style.page} ${themeStyles.page} ${Number(activePage) === countPage.length ? style.disabled : ''}`}
         onClick={() => {
           if (Number(activePage) < countPage.length) next(activePage);
         }}
