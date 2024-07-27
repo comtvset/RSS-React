@@ -22,8 +22,12 @@ const checkedCardSlice = createSlice({
     setCheckedCardSlice(state, action: PayloadAction<Person[]>) {
       state.checkedCard = action.payload;
     },
+    clearCheckedCard(state) {
+      state.checkedCard = [];
+    },
   },
 });
 
-export const { addCheckedCard, removeCheckedCard, setCheckedCardSlice } = checkedCardSlice.actions;
+export const { addCheckedCard, removeCheckedCard, setCheckedCardSlice, clearCheckedCard } =
+  checkedCardSlice.actions;
 export default checkedCardSlice.reducer;

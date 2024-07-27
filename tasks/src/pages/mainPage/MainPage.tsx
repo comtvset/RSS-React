@@ -11,6 +11,7 @@ import { RootState } from 'src/store';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { CustomHook } from 'src/hooks/myCustomHook';
 import { setActiveCard } from 'src/store/activeCardSlice';
+import { SelectedWindow } from 'src/components/SelectedWindow/SelectedWindow';
 
 export interface Person {
   birth_year: string;
@@ -31,6 +32,9 @@ export const Main: React.FC = () => {
   const navigate = useNavigate();
   const [inputValue] = CustomHook();
   const activeCard = useSelector((state: RootState) => state.activeCard.activeCard);
+  const checkedCard = useSelector((state: RootState) => state.checkedCard.checkedCard);
+
+  const isCheckedCard = checkedCard.length;
 
   useEffect(() => {
     navigate(`/?search=${inputValue}&page=${activePage}`);
@@ -61,6 +65,8 @@ export const Main: React.FC = () => {
         )}
 
         <ButtonError customError="My custom Error" />
+
+        {isCheckedCard ? <SelectedWindow /> : <></>}
       </ErrorBoundary>
     </>
   );
