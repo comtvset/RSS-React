@@ -5,6 +5,7 @@ import { useParams, useNavigate, useOutletContext } from 'react-router-dom';
 import { AppDispatch, RootState, useLazyGetQueryQuery } from 'src/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveCard } from 'src/store/activeCardSlice';
+import { useTheme } from 'src/context/useTheme';
 
 interface DetailContext {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,6 +14,7 @@ interface DetailContext {
 }
 
 export const DetailWindow: React.FC = () => {
+  const { themeStyles } = useTheme();
   const { id } = useParams<{ id: string }>();
   const { setIsOpen, activePage, inputValue } = useOutletContext<DetailContext>();
   const [loading, setLoading] = useState<boolean>(true);
@@ -79,7 +81,7 @@ export const DetailWindow: React.FC = () => {
 
   return (
     <div className={style.bord}>
-      <div className={style.detailContainer}>
+      <div className={`${style.detailContainer} ${themeStyles.detailContainer}`}>
         <span className={style.cross} onClick={handleClick}>
           ❌
         </span>

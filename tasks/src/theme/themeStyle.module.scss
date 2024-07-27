@@ -1,0 +1,55 @@
+.light {
+  color: #000000;
+  transition: color 0.5s;
+
+  .card {
+    background-color: rgba(31, 116, 212, 0.473);
+    color: rgb(231, 228, 13);
+  }
+}
+
+.dark {
+  color: #ffffff;
+  transition: color 0.5s;
+}
+
+.button {
+  background-color: rgb(231, 198, 52);
+  color: #000000;
+  transition: color 0.5s;
+}
+
+.formInput {
+  background-color: #48b0b45e;
+  transition: color 0.5s;
+}
+
+.errorBtn {
+  background-color: rgb(52, 231, 207);
+  color: #000000;
+  transition: color 0.5s;
+}
+
+.detailContainer {
+  background-color: rgba(250, 66, 10, 0.774) !important;
+  color: rgb(228, 189, 15) !important;
+  transition: color 0.5s;
+}
+
+.page {
+  background-color: rgba(228, 112, 17, 0.582) !important;
+  color: rgb(0, 0, 0);
+  transition: color 0.5s;
+}
+
+.selectedContainer {
+  background-color: rgba(51, 173, 157, 0.432) !important;
+  color: #000000 !important;
+  transition: color 0.5s;
+}
+
+.btn {
+  background-color: rgba(166, 214, 36, 0.993);
+  color: #000000;
+  transition: color 0.5s;
+}

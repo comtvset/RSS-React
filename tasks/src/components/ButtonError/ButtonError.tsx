@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import style from 'src/components/form/Forms.module.scss';
+import { useTheme } from 'src/context/useTheme';
 
 interface ButtonErrorProps {
   customError: string;
@@ -8,6 +9,7 @@ interface ButtonErrorProps {
 
 export const ButtonError: React.FC<ButtonErrorProps> = ({ customError, onError }) => {
   const [errorState, setErrorState] = useState<boolean>(false);
+  const { themeStyles } = useTheme();
 
   const handleClickError = () => {
     setErrorState(true);
@@ -23,7 +25,7 @@ export const ButtonError: React.FC<ButtonErrorProps> = ({ customError, onError }
   }
 
   return (
-    <button className={style.errorBtn} onClick={handleClickError}>
+    <button className={`${style.errorBtn} ${themeStyles.errorBtn}`} onClick={handleClickError}>
       Error
     </button>
   );

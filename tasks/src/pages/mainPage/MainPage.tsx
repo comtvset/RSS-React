@@ -7,11 +7,13 @@ import { Loading } from 'src/components/Loading/Loading';
 import { Pagination } from 'src/components/Pagination/Pagination.tsx';
 import { Results } from 'src/components/Results/Results.tsx';
 import style from 'src/pages/mainPage/MainPage.module.scss';
+import themeStyle from 'src/theme/themeStyle.module.scss';
 import { RootState } from 'src/store';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { CustomHook } from 'src/hooks/myCustomHook';
 import { setActiveCard } from 'src/store/activeCardSlice';
 import { SelectedWindow } from 'src/components/SelectedWindow/SelectedWindow';
+import { useTheme } from 'src/context/useTheme';
 
 export interface Person {
   birth_year: string;
@@ -31,6 +33,7 @@ export const Main: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const navigate = useNavigate();
   const [inputValue] = CustomHook();
+  const { theme } = useTheme();
   const activeCard = useSelector((state: RootState) => state.activeCard.activeCard);
   const checkedCard = useSelector((state: RootState) => state.checkedCard.checkedCard);
 
@@ -48,7 +51,7 @@ export const Main: React.FC = () => {
       <ErrorBoundary>
         <Form setActivePage={setActivePage} />
         <div className={style.infoContainer}>
-          <div className={style.title}>
+          <div className={`${themeStyle[theme]}`}>
             <h2>Search Results:</h2>
             {setLoadingSlice ? (
               <Loading />

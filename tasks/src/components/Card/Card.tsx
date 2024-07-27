@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from 'src/store';
 import { useNavigate } from 'react-router-dom';
 import { addCheckedCard, removeCheckedCard } from 'src/store/checkedCardSlice';
+import { useTheme } from 'src/context/useTheme';
 
 interface CardProps {
   result: Person;
@@ -16,6 +17,7 @@ export const Card: React.FC<CardProps> = ({ result }) => {
   const dispatch = useDispatch<AppDispatch>();
   const [checked, setChecked] = useState(false);
   const checkedCard = useSelector((state: RootState) => state.checkedCard.checkedCard);
+  const { themeStyles } = useTheme();
 
   useEffect(() => {
     const isCardChecked = checkedCard.some((card) => card.name === result.name);
@@ -40,7 +42,7 @@ export const Card: React.FC<CardProps> = ({ result }) => {
 
   return (
     <>
-      <div className={style.card} onClick={handleClick}>
+      <div className={`${style.card} ${themeStyles.card}`} onClick={handleClick}>
         <div className={style.checkboxContainer}>
           <input
             className={style.checkbox}

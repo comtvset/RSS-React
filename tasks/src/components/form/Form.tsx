@@ -10,6 +10,7 @@ import { setInputSlice } from 'src/store/inputSlice';
 import { setLoadingSlice } from 'src/store/loadingSlice';
 import { setResultSlice } from 'src/store/resultSlice';
 import { setCountSlice } from 'src/store/countSlice';
+import { useTheme } from 'src/context/useTheme';
 
 interface FormProps {
   setActivePage: React.Dispatch<React.SetStateAction<string>>;
@@ -21,6 +22,7 @@ export const Form: React.FC<FormProps> = ({ setActivePage }) => {
   const [trigger] = useLazyGetQueryQuery();
   const navigate = useNavigate();
   const [inputValue, setInputValue] = CustomHook();
+  const { themeStyles } = useTheme();
 
   const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -63,7 +65,7 @@ export const Form: React.FC<FormProps> = ({ setActivePage }) => {
       <form className={style.formForm} id="searchForm">
         <label htmlFor="search" />
         <input
-          className={style.formInput}
+          className={`${style.formInput} ${themeStyles.formInput}`}
           type="text"
           id="search"
           name="search"
@@ -72,6 +74,7 @@ export const Form: React.FC<FormProps> = ({ setActivePage }) => {
         />
 
         <button
+          className={themeStyles.button}
           type="submit"
           onClick={(event) => {
             handleClick(event);
