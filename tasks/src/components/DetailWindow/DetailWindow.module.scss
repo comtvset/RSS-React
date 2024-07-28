@@ -47,7 +47,7 @@
   font-size: 20px;
   color: white;
   margin: 0;
-  animation: fadeInOutFast 0.5s ease-in-out infinite;
+  animation: fadeInOutFast 0.3s ease-in-out infinite;
 }
 
 @media (width < 901px) {
@@ -67,6 +67,20 @@
 }
 
 @keyframes fadeInOut {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInOutFast {
   0% {
     opacity: 1;
   }

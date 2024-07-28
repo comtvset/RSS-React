@@ -6,7 +6,6 @@ import style from 'src/components/form/Forms.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, useGetQueryQuery } from 'src/store';
 import { setResultSlice } from 'src/store/resultSlice.ts';
-import { CustomHook } from 'src/hooks/myCustomHook.ts';
 import { Loading } from '../Loading/Loading.tsx';
 
 interface ResultsProps {
@@ -18,12 +17,9 @@ interface ResultsProps {
 export const Results: React.FC<ResultsProps> = ({ isOpen, setIsOpen, activePage }) => {
   const query = useSelector((state: RootState) => state.input.input);
   const queryResult = useSelector((state: RootState) => state.result.result);
-
-  const [inputValue] = CustomHook();
-  const userQuery = inputValue;
-  const page = '1';
-  const { data, isLoading } = useGetQueryQuery({ userQuery, page });
   const dispatch = useDispatch<AppDispatch>();
+
+  const { data, isFetching } = useGetQueryQuery({ userQuery: query, page: activePage });
 
   useEffect(() => {
     if (data && data.results) {
@@ -41,13 +37,15 @@ export const Results: React.FC<ResultsProps> = ({ isOpen, setIsOpen, activePage 
     }
   };
 
+  if (isFetching) {
+    return <Loading />;
+  }
+
   return (
     <>
       <div className={style.title} onClick={handleClick}>
         <div className={style.cardsContainer}>
-          {isLoading ? (
-            <Loading />
-          ) : queryResult.length === 0 ? (
+          {queryResult.length === 0 ? (
             <p className={style.ups}>ups...</p>
           ) : (
             queryResult.map((result: Person, index: number) => <Card key={index} result={result} />)
