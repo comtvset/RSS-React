@@ -24,15 +24,15 @@
   bottom: 0;
   background-color: #4b4b4b;
   transition: 0.4s;
-  border: 2px solid #1e1e1e;
+  border: 1px solid rgb(119, 118, 118);
   border-radius: 20px;
 }
 
 .slider:before {
   position: absolute;
   content: '';
-  height: 24px;
-  width: 24px;
+  height: 26px;
+  width: 26px;
   left: 0;
   background: radial-gradient(circle farthest-side at center center, #ffffff 0%, #ababab 80%);
   transition: 0.4s;

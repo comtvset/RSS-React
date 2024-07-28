@@ -28,6 +28,15 @@ export interface Person {
   url: string;
 }
 
+export interface PersonAllFields extends Person {
+  skin_color: string;
+  species: string[];
+  vehicles: string[];
+  starships: string[];
+  created: string;
+  edited: string;
+}
+
 export const Main: React.FC = () => {
   const [activePage, setActivePage] = useState<string>('1');
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -38,13 +47,11 @@ export const Main: React.FC = () => {
   const checkedCard = useSelector((state: RootState) => state.checkedCard.checkedCard);
 
   const isCheckedCard = checkedCard.length;
+  const loading = useSelector((state: RootState) => state.loading.loading);
 
   useEffect(() => {
     navigate(`/?search=${inputValue}&page=${activePage}`);
   }, [activePage, navigate, inputValue]);
-  const setLoadingSlice = useSelector((state: RootState) => state.loading.loading);
-
-  useEffect(() => {}, [setLoadingSlice]);
 
   return (
     <>
@@ -53,7 +60,7 @@ export const Main: React.FC = () => {
         <div className={style.infoContainer}>
           <div className={`${themeStyle[theme]}`}>
             <h2>Search Results:</h2>
-            {setLoadingSlice ? (
+            {loading ? (
               <Loading />
             ) : (
               <Results isOpen={isOpen} setIsOpen={setIsOpen} activePage={activePage} />
@@ -61,7 +68,7 @@ export const Main: React.FC = () => {
           </div>
           <Outlet context={{ setActiveCard, activeCard, setIsOpen, inputValue, activePage }} />
         </div>
-        {setLoadingSlice ? (
+        {loading ? (
           <span></span>
         ) : (
           <Pagination activePage={activePage} setActivePage={setActivePage} />

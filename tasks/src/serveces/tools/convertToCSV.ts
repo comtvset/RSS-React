@@ -1,6 +1,7 @@
 import { Person } from 'src/pages/mainPage/MainPage';
 
 export const convertToCSV = (data: Person[]): string => {
+  if (data.length === 0) return '';
   const csvRows = [];
   const headers = Object.keys(data[0]);
   csvRows.push(headers.join(', '));
