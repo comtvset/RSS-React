@@ -28,6 +28,15 @@ export interface Person {
   url: string;
 }
 
+export interface PersonAllFields extends Person {
+  skin_color: string;
+  species: string[];
+  vehicles: string[];
+  starships: string[];
+  created: string;
+  edited: string;
+}
+
 export const Main: React.FC = () => {
   const [activePage, setActivePage] = useState<string>('1');
   const [isOpen, setIsOpen] = useState<boolean>(false);

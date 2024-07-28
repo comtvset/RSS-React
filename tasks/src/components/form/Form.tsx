@@ -11,7 +11,7 @@ import { setResultSlice } from 'src/store/resultSlice';
 import { setCountSlice } from 'src/store/countSlice';
 import { useTheme } from 'src/context/useTheme';
 
-interface FormProps {
+export interface FormProps {
   setActivePage: React.Dispatch<React.SetStateAction<string>>;
 }
 

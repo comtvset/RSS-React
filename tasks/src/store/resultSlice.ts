@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Person } from 'src/pages/mainPage/MainPage';
 
 export interface ResultSlice {
-  result: [];
+  result: Person[];
 }
 
 const initialState: ResultSlice = {
@@ -12,7 +13,7 @@ const resultSlice = createSlice({
   name: 'result',
   initialState,
   reducers: {
-    setResultSlice(state, action: PayloadAction<[]>) {
+    setResultSlice(state, action: PayloadAction<Person[]>) {
       state.result = action.payload;
     },
   },

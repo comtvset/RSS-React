@@ -9,7 +9,7 @@ const initialState: CountSlice = {
 };
 
 const countSlice = createSlice({
-  name: 'loading',
+  name: 'count',
   initialState,
   reducers: {
     setCountSlice(state, action: PayloadAction<string[]>) {
