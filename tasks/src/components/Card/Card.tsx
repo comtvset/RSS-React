@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import style from 'src/components/Card/Card.module.scss';
 import { Person } from 'src/pages/mainPage/MainPage';
 import { setActiveCard } from 'src/store/activeCardSlice.ts';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from 'src/store';
+import { AppDispatch, getCheckedCard } from 'src/store';
 import { useNavigate } from 'react-router-dom';
 import { addCheckedCard, removeCheckedCard } from 'src/store/checkedCardSlice';
 import { useTheme } from 'src/context/useTheme';
@@ -16,7 +16,7 @@ export const Card: React.FC<CardProps> = ({ result }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const [checked, setChecked] = useState(false);
-  const checkedCard = useSelector((state: RootState) => state.checkedCard.checkedCard);
+  const checkedCard = useSelector(getCheckedCard);
   const { themeStyles } = useTheme();
 
   useEffect(() => {

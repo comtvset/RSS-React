@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import style from 'src/components/DetailWindow/DetailWindow.module.scss';
 import { Person } from 'src/pages/mainPage/MainPage';
 import { useParams, useNavigate, useOutletContext } from 'react-router-dom';
-import { AppDispatch, RootState, useGetQueryQuery } from 'src/store';
+import { AppDispatch, getActiveCard, useGetQueryQuery } from 'src/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveCard } from 'src/store/activeCardSlice';
 import { useTheme } from 'src/context/useTheme';
 import { Loading } from '../Loading/Loading';
+import { Text } from 'src/serveces/tools/text';
 
 interface DetailContext {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,7 +21,7 @@ export const DetailWindow: React.FC = () => {
   const { setIsOpen, activePage, inputValue } = useOutletContext<DetailContext>();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const activeCard = useSelector((state: RootState) => state.activeCard.activeCard);
+  const activeCard = useSelector(getActiveCard);
 
   const { data, isFetching, isError } = useGetQueryQuery(
     { userQuery: id, page: '1' },
@@ -76,14 +77,9 @@ export const DetailWindow: React.FC = () => {
           ❌
         </span>
         <h3 className={`${style.title} ${themeStyles.title}`}>{activeCard.name}</h3>
-        <p>Birth year: {activeCard.birth_year}</p>
-        <p>Eye color: {activeCard.eye_color}</p>
-        <p>Height: {activeCard.height}cm</p>
-        <p>Homeworld: {activeCard.homeworld}</p>
-        <p>Hair color: {activeCard.hair_color}</p>
-        <p>Gender: {activeCard.gender}</p>
-        <p>Mass: {activeCard.mass}</p>
-        <p>URL: {activeCard.url}</p>
+        {Object.entries(activeCard).map(([key, value]) => (
+          <Text key={key} label={key} value={value} />
+        ))}
       </div>
     </div>
   );

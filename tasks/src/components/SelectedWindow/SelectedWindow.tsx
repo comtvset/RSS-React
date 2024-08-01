@@ -1,4 +1,4 @@
-import { AppDispatch, RootState } from 'src/store';
+import { AppDispatch, getCheckedCard } from 'src/store';
 import style from './SelectedWindow.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearCheckedCard } from 'src/store/checkedCardSlice';
@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 
 export const SelectedWindow = () => {
   const [csvUrl, setCsvUrl] = useState<string>('');
-  const checkedCard = useSelector((state: RootState) => state.checkedCard.checkedCard);
+  const checkedCard = useSelector(getCheckedCard);
   const dispatch = useDispatch<AppDispatch>();
   const { themeStyles } = useTheme();
 

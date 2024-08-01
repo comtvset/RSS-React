@@ -1,4 +1,3 @@
-import React from 'react';
 import style from './Switch.module.scss';
 import { useTheme } from 'src/context/useTheme';
 

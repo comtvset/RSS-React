@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import style from 'src/components/form/Forms.module.scss';
 import { useTheme } from 'src/context/useTheme';
 

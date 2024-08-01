@@ -43,7 +43,7 @@ vi.mock('src/components/SelectedWindow/SelectedWindow', () => ({
 }));
 
 vi.mock('src/hooks/myCustomHook', () => ({
-  CustomHook: () => ['mocked value'],
+  useCustomHook: () => ['mocked value'],
 }));
 
 vi.mock('react-router-dom', async (importOriginal) => {

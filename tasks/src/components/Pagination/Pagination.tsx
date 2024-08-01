@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import style from 'src/components/Pagination/Pagination.module.scss';
 import { getPages } from 'src/serveces/tools/getPages.ts';
-import { AppDispatch, RootState, useGetQueryQuery } from 'src/store';
+import { AppDispatch, getCountPage, getQuery, useGetQueryQuery } from 'src/store';
 import { setResultSlice } from 'src/store/resultSlice';
 import { setCountSlice } from 'src/store/countSlice';
 import { useTheme } from 'src/context/useTheme';
@@ -13,8 +13,8 @@ interface PaginationProps {
 }
 
 export const Pagination: React.FC<PaginationProps> = ({ activePage, setActivePage }) => {
-  const currentUserQuery = useSelector((state: RootState) => state.input.input);
-  const countPage = useSelector((state: RootState) => state.count.count);
+  const currentUserQuery = useSelector(getQuery);
+  const countPage = useSelector(getCountPage);
 
   const dispatch = useDispatch<AppDispatch>();
   const { data, isFetching } = useGetQueryQuery({ userQuery: currentUserQuery, page: activePage });

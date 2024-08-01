@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ButtonError } from 'src/components/ButtonError/ButtonError.tsx';
 import { ErrorBoundary } from 'src/components/ErrorBoundary/ErrorBoundary.tsx';
@@ -8,9 +8,9 @@ import { Pagination } from 'src/components/Pagination/Pagination.tsx';
 import { Results } from 'src/components/Results/Results.tsx';
 import style from 'src/pages/mainPage/MainPage.module.scss';
 import themeStyle from 'src/theme/themeStyle.module.scss';
-import { RootState } from 'src/store';
+import { getActiveCard, getCheckedCard, getLoading } from 'src/store';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { CustomHook } from 'src/hooks/myCustomHook';
+import { useCustomHook } from 'src/hooks/myCustomHook';
 import { setActiveCard } from 'src/store/activeCardSlice';
 import { SelectedWindow } from 'src/components/SelectedWindow/SelectedWindow';
 import { useTheme } from 'src/context/useTheme';
@@ -41,13 +41,13 @@ export const Main: React.FC = () => {
   const [activePage, setActivePage] = useState<string>('1');
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const navigate = useNavigate();
-  const [inputValue] = CustomHook();
+  const [inputValue] = useCustomHook();
   const { theme } = useTheme();
-  const activeCard = useSelector((state: RootState) => state.activeCard.activeCard);
-  const checkedCard = useSelector((state: RootState) => state.checkedCard.checkedCard);
+  const activeCard = useSelector(getActiveCard);
+  const checkedCard = useSelector(getCheckedCard);
 
   const isCheckedCard = checkedCard.length;
-  const loading = useSelector((state: RootState) => state.loading.loading);
+  const loading = useSelector(getLoading);
 
   useEffect(() => {
     navigate(`/?search=${inputValue}&page=${activePage}`);

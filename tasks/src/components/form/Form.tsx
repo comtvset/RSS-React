@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import style from 'src/components/form/Forms.module.scss';
-import { CustomHook } from 'src/hooks/myCustomHook';
+import { useCustomHook } from 'src/hooks/myCustomHook';
 import { getPages } from 'src/serveces/tools/getPages.ts';
 import { useLazyGetQueryQuery } from 'src/store';
 import { AppDispatch } from 'src/store';
@@ -19,7 +19,7 @@ export const Form: React.FC<FormProps> = ({ setActivePage }) => {
   const dispatch = useDispatch<AppDispatch>();
   const [trigger] = useLazyGetQueryQuery();
   const navigate = useNavigate();
-  const [inputValue, setInputValue] = CustomHook();
+  const [inputValue, setInputValue] = useCustomHook();
   const { themeStyles } = useTheme();
 
   const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {

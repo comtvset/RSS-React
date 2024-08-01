@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export const CustomHook = (): [string, React.Dispatch<React.SetStateAction<string>>] => {
+export const useCustomHook = (): [string, React.Dispatch<React.SetStateAction<string>>] => {
   const [inputValue, setInputValue] = useState(() => {
     const savedQuery = localStorage.getItem('inputData');
     if (savedQuery) {

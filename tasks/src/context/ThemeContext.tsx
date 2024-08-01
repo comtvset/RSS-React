@@ -1,4 +1,4 @@
-import React, { createContext, useState, ReactNode, useLayoutEffect, useMemo } from 'react';
+import { createContext, useState, ReactNode, useLayoutEffect, useMemo } from 'react';
 import themeStyle from 'src/theme/themeStyle.module.scss';
 import defaultStyle from 'src/theme/defaultStyle.module.scss';
 
