@@ -22,3 +22,25 @@
 .selectedContainer button {
   margin: 5px;
 }
+
+.link {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  margin: 5px;
+  font-size: 12px;
+  padding: 4px 6px 4px 6px;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  color: white;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+.link:hover {
+  border-color: #646cff;
+}
+
+.link:active {
+  background-color: #646cff;
+}

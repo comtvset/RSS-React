@@ -1,26 +1,21 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { SelectedWindow } from 'src/components/SelectedWindow/SelectedWindow';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { convertToCSV } from 'src/serveces/tools/convertToCSV';
-import { downloadCSV } from 'src/serveces/tools/downloadCSV';
-import { ThemeContext } from 'src/context/ThemeContext';
+
+global.URL.createObjectURL = vi.fn().mockReturnValue('mock-url');
+global.URL.revokeObjectURL = vi.fn();
 
 vi.mock('react-redux', () => ({
-  useDispatch: vi.fn(),
+  useDispatch: vi.fn().mockReturnValue(vi.fn()),
   useSelector: vi.fn(),
 }));
 
-vi.mock('src/store/checkedCardSlice', () => ({
-  clearCheckedCard: vi.fn(),
-}));
-
 vi.mock('src/serveces/tools/convertToCSV', () => ({
-  convertToCSV: vi.fn().mockReturnValue('mock-csv'),
-}));
-
-vi.mock('src/serveces/tools/downloadCSV', () => ({
-  downloadCSV: vi.fn(),
+  convertToCSV: vi
+    .fn()
+    .mockReturnValue(new Blob(['mock-csv'], { type: 'text/csv;charset=utf-8;' })),
 }));
 
 vi.mock('src/context/useTheme', () => ({
@@ -33,31 +28,44 @@ vi.mock('src/context/useTheme', () => ({
 }));
 
 describe('SelectedWindow component', () => {
-  it('should call convertToCSV and downloadCSV when "Download" button is clicked', () => {
-    vi.mocked(useSelector).mockReturnValue(['item1', 'item2', 'item3']);
+  it('should call convertToCSV and set CSV URL when "Download" link is rendered', () => {
+    const mockCheckedCard = [
+      { id: 1, name: 'item1' },
+      { id: 2, name: 'item2' },
+      { id: 3, name: 'item3' },
+    ];
+    vi.mocked(useSelector).mockReturnValue(mockCheckedCard);
+
+    const mockDispatch = vi.mocked(useDispatch);
+    const mockClearCheckedCard = vi.fn();
+    mockDispatch.mockReturnValue(mockClearCheckedCard);
 
     const mockConvertToCSV = vi.mocked(convertToCSV);
-    const mockDownloadCSV = vi.mocked(downloadCSV);
 
-    render(
-      <ThemeContext.Provider
-        value={{
-          theme: 'dark',
-          themeStyles: {
-            selectedContainer: 'mock-selected-container',
-            btn: 'mock-btn',
-          },
-          toggleTheme: vi.fn(),
-        }}
-      >
-        <SelectedWindow />
-      </ThemeContext.Provider>,
+    render(<SelectedWindow />);
+
+    expect(mockConvertToCSV).toHaveBeenCalledWith(mockCheckedCard);
+
+    const downloadLink = screen.getByText('Download');
+    expect(downloadLink).toHaveAttribute('href', 'mock-url');
+    expect(downloadLink).toHaveAttribute(
+      'download',
+      `${mockCheckedCard.length}_items(StarWars).csv`,
     );
+  });
 
-    const downloadButton = screen.getByText('Download');
-    fireEvent.click(downloadButton);
+  it('should call clearCheckedCard when "Unselect all" button is clicked', () => {
+    vi.mocked(useSelector).mockReturnValue([]);
 
-    expect(mockConvertToCSV).toHaveBeenCalledWith(['item1', 'item2', 'item3']);
-    expect(mockDownloadCSV).toHaveBeenCalledWith('mock-csv', '3_items(StarWars).csv');
+    const mockDispatch = vi.mocked(useDispatch);
+    const mockClearCheckedCard = vi.fn();
+    mockDispatch.mockReturnValue(mockClearCheckedCard);
+
+    render(<SelectedWindow />);
+
+    const unselectButton = screen.getByText('Unselect all');
+    fireEvent.click(unselectButton);
+
+    expect(mockClearCheckedCard).toHaveBeenCalled();
   });
 });

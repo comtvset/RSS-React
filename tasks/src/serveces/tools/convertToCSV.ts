@@ -1,18 +1,11 @@
 import { Person } from 'src/pages/mainPage/MainPage';
 
-export const convertToCSV = (data: Person[]): string => {
-  if (data.length === 0) return '';
-  const csvRows = [];
-  const headers = Object.keys(data[0]);
-  csvRows.push(headers.join(', '));
+export const convertToCSV = (data: Person[]): Blob => {
+  if (data.length === 0) return new Blob([], { type: 'text/csv;charset=utf-8;' });
 
-  for (const row of data) {
-    const values = headers.map((header) => {
-      const escaped = ('' + row[header as keyof Person]).replace(/"/g, '\\"');
-      return `"${escaped}"`;
-    });
-    csvRows.push(values.join(', '));
-  }
+  const header = `${Object.keys(data[0]).join(',')}\n`;
+  const information = data.map((item) => Object.values(item).join(',')).join('\n');
+  const wholeInfo = header + information;
 
-  return csvRows.join('\n');
+  return new Blob([wholeInfo], { type: 'text/csv;charset=utf-8;' });
 };
