@@ -4,8 +4,8 @@ import { SelectedWindow } from 'src/components/SelectedWindow/SelectedWindow';
 import { useDispatch, useSelector } from 'react-redux';
 import { convertToCSV } from 'src/serveces/tools/convertToCSV';
 
-global.URL.createObjectURL = vi.fn().mockReturnValue('mock-url');
-global.URL.revokeObjectURL = vi.fn();
+window.URL.createObjectURL = vi.fn().mockReturnValue('mock-url');
+window.URL.revokeObjectURL = vi.fn();
 
 vi.mock('react-redux', () => ({
   useDispatch: vi.fn().mockReturnValue(vi.fn()),
