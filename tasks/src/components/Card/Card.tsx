@@ -1,23 +1,25 @@
 import { useEffect, useState } from 'react';
-import style from 'src/components/Card/Card.module.scss';
-import { Person } from 'src/pages/mainPage/MainPage';
-import { setActiveCard } from 'src/store/activeCardSlice.ts';
+import style from '../Card/Card.module.scss';
+import { setActiveCard } from '../../store/activeCardSlice.ts';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, getCheckedCard } from 'src/store';
-import { useNavigate } from 'react-router-dom';
-import { addCheckedCard, removeCheckedCard } from 'src/store/checkedCardSlice';
-import { useTheme } from 'src/context/useTheme';
+import { AppDispatch, getCheckedCard, getQuery } from '../../store';
+import { addCheckedCard, removeCheckedCard } from '../../store/checkedCardSlice';
+import { useTheme } from '../../context/useTheme';
+import { Person } from '@/pages/main/index.tsx';
+import router from 'next/router';
 
 interface CardProps {
   result: Person;
+  activePage: string;
+  isOpen: boolean;
 }
 
-export const Card: React.FC<CardProps> = ({ result }) => {
-  const navigate = useNavigate();
+export const Card: React.FC<CardProps> = ({ result, activePage, isOpen }) => {
   const dispatch = useDispatch<AppDispatch>();
   const [checked, setChecked] = useState(false);
   const checkedCard = useSelector(getCheckedCard);
   const { themeStyles } = useTheme();
+  const query = useSelector(getQuery);
 
   useEffect(() => {
     const isCardChecked = checkedCard.some((card) => card.name === result.name);
@@ -26,8 +28,10 @@ export const Card: React.FC<CardProps> = ({ result }) => {
 
   const handleClick = () => {
     const smt = dispatch(setActiveCard(result));
-    if (smt) {
-      navigate(`/details/${result.name}`);
+    if (!isOpen && smt) {
+      router.push(`/main?search=${query}&page=${activePage}&${result.name}`);
+    } else if (!smt) {
+      router.push(`/main?search=${query}&page=${activePage}`);
     }
   };
 

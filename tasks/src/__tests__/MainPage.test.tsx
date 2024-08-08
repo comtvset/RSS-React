@@ -1,6 +1,6 @@
 import { describe, it, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
-import { Main } from 'src/pages/mainPage/MainPage';
+import { Main } from 'src/components/Pages/mainPage/MainPage';
 import { MemoryRouter, useNavigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from 'src/store';

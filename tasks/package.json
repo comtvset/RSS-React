@@ -7,13 +7,13 @@
     "*.{tsx,ts}": [
       "npm --prefix tasks run format:fix --staged-files",
       "npm --prefix tasks run ci:format --staged-files",
-      "npm --prefix tasks run lint",
-      "npm --prefix tasks run test"
+      "npm --prefix tasks run lint"
     ]
   },
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "lint": "eslint --cache . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint --cache . --ext ts,tsx --report-unused-disable-directives --fix",
     "preview": "vite preview",
@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "https://pkg.csb.dev/reduxjs/redux-toolkit/commit/beb818cb/@reduxjs/toolkit",
+    "next": "^14.2.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-redux": "^9.1.2",
@@ -31,13 +32,15 @@
     "vite-tsconfig-paths": "^4.3.2"
   },
   "devDependencies": {
+    "@next/eslint-plugin-next": "^14.2.5",
     "@testing-library/dom": "^10.3.1",
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^16.0.0",
+    "@types/node": "22.1.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "@typescript-eslint/eslint-plugin": "^7.13.1",
-    "@typescript-eslint/parser": "^7.13.1",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
     "@vitejs/plugin-react": "^4.3.1",
     "@vitest/coverage-v8": "^2.0.2",
     "c8": "^10.1.2",

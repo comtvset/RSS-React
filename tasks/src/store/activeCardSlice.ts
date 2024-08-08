@@ -1,5 +1,5 @@
+import { Person } from '@/pages/main';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Person } from 'src/pages/mainPage/MainPage';
 
 export interface ActiveCard {
   activeCard: Person | null;

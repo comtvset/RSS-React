@@ -1,26 +1,32 @@
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import style from 'src/components/form/Forms.module.scss';
-import { useCustomHook } from 'src/hooks/myCustomHook';
-import { getPages } from 'src/serveces/tools/getPages.ts';
-import { useLazyGetQueryQuery } from 'src/store';
-import { AppDispatch } from 'src/store';
-import { setInputSlice } from 'src/store/inputSlice';
-import { setLoadingSlice } from 'src/store/loadingSlice';
-import { setResultSlice } from 'src/store/resultSlice';
-import { setCountSlice } from 'src/store/countSlice';
-import { useTheme } from 'src/context/useTheme';
+import style from '../form/Forms.module.scss';
+import { useCustomHook } from '../../hooks/myCustomHook';
+import { AppDispatch } from '../../store';
+import { setInputSlice } from '../../store/inputSlice';
+import { setLoadingSlice } from '../../store/loadingSlice';
+import { useTheme } from '../../context/useTheme';
+import { useRouter } from 'next/router';
+import { InitialData, Person } from '@/pages/main/index.tsx';
+import { useEffect } from 'react';
 
 export interface FormProps {
   setActivePage: React.Dispatch<React.SetStateAction<string>>;
+  initialData: InitialData;
+
+  setResults: React.Dispatch<React.SetStateAction<Person[]>>;
 }
 
-export const Form: React.FC<FormProps> = ({ setActivePage }) => {
+export const Form: React.FC<FormProps> = ({ setActivePage, initialData, setResults }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const [trigger] = useLazyGetQueryQuery();
-  const navigate = useNavigate();
   const [inputValue, setInputValue] = useCustomHook();
   const { themeStyles } = useTheme();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.query.search) {
+      setInputValue(String(router.query.search));
+    }
+  }, [router.query.search, setInputValue]);
 
   const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -29,12 +35,8 @@ export const Form: React.FC<FormProps> = ({ setActivePage }) => {
     dispatch(setInputSlice(inputValue));
 
     try {
-      const response = await trigger({ userQuery: inputValue, page: '1' }).unwrap();
-      navigate(`/?search=${inputValue}&page=${'1'}`);
-      dispatch(setResultSlice(response.results));
-      const pages = getPages(response.count);
-      dispatch(setCountSlice(pages));
-      localStorage.setItem('pageData', JSON.stringify('1'));
+      router.push(`/main?search=${inputValue}&page=${'1'}`);
+      setResults(initialData.results);
     } catch (error) {
       error;
     } finally {

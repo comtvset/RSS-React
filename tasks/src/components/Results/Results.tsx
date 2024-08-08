@@ -1,43 +1,43 @@
 import { useEffect } from 'react';
-import { Person } from 'src/pages/mainPage/MainPage.tsx';
 import { Card } from '../Card/Card.tsx';
-import { useNavigate } from 'react-router-dom';
-import style from 'src/components/form/Forms.module.scss';
+import style from '../form/Forms.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, getQuery, getResult, useGetQueryQuery } from 'src/store';
-import { setResultSlice } from 'src/store/resultSlice.ts';
+import { AppDispatch, getLoading, getQuery } from '../../store';
+import { Person } from '@/pages/main/index.tsx';
+import { useRouter } from 'next/router';
 import { Loading } from '../Loading/Loading.tsx';
+import { setLoadingSlice } from '@/store/loadingSlice.ts';
 
 interface ResultsProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   activePage: string;
+  results: Person[];
 }
 
-export const Results: React.FC<ResultsProps> = ({ isOpen, setIsOpen, activePage }) => {
+export const Results: React.FC<ResultsProps> = ({ isOpen, setIsOpen, activePage, results }) => {
   const query = useSelector(getQuery);
-  const queryResult = useSelector(getResult);
+  const loading = useSelector(getLoading);
   const dispatch = useDispatch<AppDispatch>();
-
-  const { data, isFetching } = useGetQueryQuery({ userQuery: query, page: activePage });
+  const router = useRouter();
 
   useEffect(() => {
-    if (data && data.results) {
-      dispatch(setResultSlice(data.results));
+    if (results.length === 0) {
+      dispatch(setLoadingSlice(true));
+    } else {
+      dispatch(setLoadingSlice(false));
     }
-  }, [data, dispatch]);
-
-  const navigate = useNavigate();
+  }, [results, dispatch]);
 
   const handleClick = () => {
     setIsOpen(true);
     if (isOpen) {
-      navigate(`/?search=${query}&page=${activePage}`);
+      router.push(`/main?search=${query}&page=${activePage}`);
       setIsOpen(false);
     }
   };
 
-  if (isFetching) {
+  if (loading) {
     return <Loading />;
   }
 
@@ -45,10 +45,12 @@ export const Results: React.FC<ResultsProps> = ({ isOpen, setIsOpen, activePage 
     <>
       <div className={style.title} onClick={handleClick}>
         <div className={style.cardsContainer}>
-          {queryResult.length === 0 ? (
+          {results === undefined || results.length === 0 ? (
             <p className={style.ups}>ups...</p>
           ) : (
-            queryResult.map((result: Person, index: number) => <Card key={index} result={result} />)
+            results.map((result: Person, index: number) => (
+              <Card key={index} result={result} activePage={activePage} isOpen={isOpen} />
+            ))
           )}
         </div>
       </div>

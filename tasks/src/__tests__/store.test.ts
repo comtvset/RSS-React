@@ -11,7 +11,7 @@ import checkedCardSliceReducer, {
   setCheckedCardSlice,
 } from 'src/store/checkedCardSlice';
 import store, { RootState } from 'src/store/store';
-import { PersonAllFields } from 'src/pages/mainPage/MainPage';
+import { PersonAllFields } from 'src/components/Pages/mainPage/MainPage';
 
 const samplePerson: PersonAllFields = {
   name: 'persone',

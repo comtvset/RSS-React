@@ -12,6 +12,9 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  margin: 0 auto;
+  text-align: center;
 }
 
 .light-theme {
@@ -19,6 +22,8 @@
   background-image: var(--background-image);
   background-position: center center;
   background-size: cover;
+
+  max-width: 1280px;
 }
 
 .dark-theme {
@@ -26,6 +31,8 @@
   background-image: var(--background-image);
   background-position: center center;
   background-size: cover;
+
+  max-width: 1280px;
 }
 
 a {
@@ -44,6 +51,10 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+
+  margin: 0 auto;
+  text-align: center;
+  justify-content: center;
 }
 
 h1 {

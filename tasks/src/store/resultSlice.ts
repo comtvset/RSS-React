@@ -1,5 +1,6 @@
+import { Person } from '@/pages/main';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Person } from 'src/pages/mainPage/MainPage';
+// import { Person } from '../components/Pages/mainPage/MainPage';
 
 export interface ResultSlice {
   result: Person[];

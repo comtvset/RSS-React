@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Card } from 'src/components/Card/Card';
 import '@testing-library/jest-dom';
-import { PersonAllFields } from 'src/pages/mainPage/MainPage';
+import { PersonAllFields } from 'src/components/Pages/mainPage/MainPage';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from 'src/store';

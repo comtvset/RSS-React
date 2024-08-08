@@ -1,4 +1,4 @@
-import { Person } from 'src/pages/mainPage/MainPage';
+import { Person } from '@/pages/main';
 
 export const convertToCSV = (data: Person[]): Blob => {
   if (data.length === 0) return new Blob([], { type: 'text/csv;charset=utf-8;' });
