@@ -1,9 +1,9 @@
-import { AppDispatch, getCheckedCard } from 'src/store';
+import { AppDispatch, getCheckedCard } from '../../store';
 import style from './SelectedWindow.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearCheckedCard } from 'src/store/checkedCardSlice';
-import { convertToCSV } from 'src/serveces/tools/convertToCSV';
-import { useTheme } from 'src/context/useTheme';
+import { clearCheckedCard } from '../../store/checkedCardSlice';
+import { convertToCSV } from '../../serveces/tools/convertToCSV';
+import { useTheme } from '../../context/useTheme';
 import { useEffect, useState } from 'react';
 
 export const SelectedWindow = () => {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import style from 'src/components/form/Forms.module.scss';
-import { useTheme } from 'src/context/useTheme';
+import style from '@/components/form/Forms.module.scss';
+import { useTheme } from '@/context/useTheme';
 
 interface ButtonErrorProps {
   customError: string;
