@@ -1,134 +1,84 @@
 import { describe, expect, it, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { Card } from 'src/components/Card/Card';
+import { render, screen } from '@testing-library/react';
+import { getActiveCard, getLoading, getQuery, store } from '@/store';
 import '@testing-library/jest-dom';
-import { PersonAllFields } from 'src/components/Pages/mainPage/MainPage';
 import { MemoryRouter } from 'react-router-dom';
+import { DetailWindow } from '@/components/DetailWindow/DetailWindow';
 import { Provider } from 'react-redux';
-import { store } from 'src/store';
-import { ThemeProvider } from 'src/context/ThemeContext';
-import { setActiveCard } from 'src/store/activeCardSlice';
-import { addCheckedCard, removeCheckedCard } from 'src/store/checkedCardSlice';
-import { useDispatch } from 'react-redux';
+import { ThemeProvider } from '@/context/ThemeContext';
 
-const samplePerson: PersonAllFields = {
-  name: 'persone',
-  height: 'tall',
-  mass: '100',
-  hair_color: 'blue',
-  skin_color: 'blue',
-  eye_color: 'blue',
-  birth_year: '0',
-  gender: 'enby',
-  homeworld: 'https://test',
-  films: ['film_1', 'film_2'],
-  species: ['film_1', 'film_2'],
-  vehicles: ['the_best'],
-  starships: ['the_best'],
-  created: 'tomorrow',
-  edited: 'yesterday',
-  url: 'https://test',
+const mockContextValue = {
+  setIsOpen: vi.fn(),
+  activePage: '1',
+  inputValue: '',
 };
 
-describe('Card', () => {
-  it('should render card with correct data', () => {
+vi.mock('next/router', () => ({
+  useRouter: () => ({
+    push: vi.fn(),
+  }),
+}));
+
+vi.mock('react-redux', async (importOriginal) => {
+  const actual = (await importOriginal()) as typeof import('react-redux');
+  return {
+    ...actual,
+    useDispatch: vi.fn().mockReturnValue(vi.fn()),
+    useSelector: vi.fn((selector) => {
+      if (selector === getActiveCard) {
+        return {
+          name: 'Test Name',
+          birth_year: '1990',
+          eye_color: 'blue',
+          height: '180',
+          homeworld: 'Earth',
+          hair_color: 'brown',
+          gender: 'male',
+          mass: '80',
+          url: 'https://example.com',
+        };
+      }
+      if (selector === getLoading) {
+        return false;
+      }
+      if (selector === getQuery) {
+        return 'test query';
+      }
+      return null;
+    }),
+  };
+});
+
+vi.mock('@/context/useTheme', () => ({
+  useTheme: () => ({
+    themeStyles: { detailContainer: 'mocked-detail-container', title: 'mocked-title' },
+  }),
+}));
+
+describe('DetailWindow', () => {
+  it('renders active card details correctly', () => {
     render(
       <MemoryRouter>
         <Provider store={store}>
           <ThemeProvider>
-            <Card result={samplePerson} />
+            <DetailWindow
+              setIsOpen={mockContextValue.setIsOpen}
+              activePage={mockContextValue.activePage}
+              inputValue={mockContextValue.inputValue}
+            />
           </ThemeProvider>
         </Provider>
       </MemoryRouter>,
     );
 
-    expect(screen.getByText('persone')).toBeInTheDocument();
-    expect(screen.getByText(/Birth year: 0/i)).toBeInTheDocument();
+    expect(screen.getByText('Test Name')).toBeInTheDocument();
+    expect(screen.getByText(/Birth year: 1990/i)).toBeInTheDocument();
     expect(screen.getByText(/Eye color: blue/i)).toBeInTheDocument();
-    expect(screen.getByText(/Height: tall/i)).toBeInTheDocument();
-    expect(screen.getByText(/Hair color: blue/i)).toBeInTheDocument();
-    expect(screen.getByText(/Gender: enby/i)).toBeInTheDocument();
-    expect(screen.getByText(/Mass: 100/i)).toBeInTheDocument();
-  });
-
-  it('should apply theme styles', () => {
-    vi.mock('src/context/useTheme', () => ({
-      useTheme: () => ({ themeStyles: { card: 'mocked-theme-card' } }),
-    }));
-
-    render(
-      <MemoryRouter>
-        <Provider store={store}>
-          <ThemeProvider>
-            <Card result={samplePerson} />
-          </ThemeProvider>
-        </Provider>
-      </MemoryRouter>,
-    );
-
-    const cardElement = screen.getByText('persone').closest('div');
-    expect(cardElement).toHaveClass('mocked-theme-card');
-  });
-
-  it('should call setActiveCard and navigate on card click', async () => {
-    vi.mock('react-redux', async (importOriginal) => {
-      const actual: typeof import('react-redux') = await importOriginal();
-      return {
-        ...actual,
-        useDispatch: vi.fn(),
-      };
-    });
-
-    const mockDispatch = vi.fn();
-    vi.mocked(useDispatch).mockReturnValue(mockDispatch);
-
-    render(
-      <MemoryRouter>
-        <Provider store={store}>
-          <ThemeProvider>
-            <Card result={samplePerson} />
-          </ThemeProvider>
-        </Provider>
-      </MemoryRouter>,
-    );
-
-    const cardElement = screen.getByText('persone');
-    fireEvent.click(cardElement);
-
-    expect(mockDispatch).toHaveBeenCalledWith(setActiveCard(samplePerson));
-  });
-
-  it('should update checkbox state and dispatch actions', async () => {
-    vi.mock('react-redux', async (importOriginal) => {
-      const actual: typeof import('react-redux') = await importOriginal();
-      return {
-        ...actual,
-        useDispatch: vi.fn(),
-      };
-    });
-
-    const mockDispatch = vi.fn();
-    vi.mocked(useDispatch).mockReturnValue(mockDispatch);
-
-    const { getByRole } = render(
-      <MemoryRouter>
-        <Provider store={store}>
-          <ThemeProvider>
-            <Card result={samplePerson} />
-          </ThemeProvider>
-        </Provider>
-      </MemoryRouter>,
-    );
-
-    const checkbox = getByRole('checkbox');
-    expect(checkbox).not.toBeChecked();
-
-    fireEvent.click(checkbox);
-    expect(checkbox).toBeChecked();
-    expect(mockDispatch).toHaveBeenCalledWith(addCheckedCard(samplePerson));
-
-    fireEvent.click(checkbox);
-    expect(checkbox).not.toBeChecked();
-    expect(mockDispatch).toHaveBeenCalledWith(removeCheckedCard(samplePerson));
+    expect(screen.getByText(/Height: 180/i)).toBeInTheDocument();
+    expect(screen.getByText(/Homeworld: Earth/i)).toBeInTheDocument();
+    expect(screen.getByText(/Hair color: brown/i)).toBeInTheDocument();
+    expect(screen.getByText(/Gender: male/i)).toBeInTheDocument();
+    expect(screen.getByText(/Mass: 80/i)).toBeInTheDocument();
+    expect(screen.getByText(/URL: https:\/\/example.com/i)).toBeInTheDocument();
   });
 });

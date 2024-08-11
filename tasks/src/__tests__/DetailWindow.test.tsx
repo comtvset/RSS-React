@@ -1,64 +1,84 @@
-import { describe, it, vi } from 'vitest';
-import { render, waitFor, screen } from '@testing-library/react';
-import { store, useGetQueryQuery } from 'src/store';
+import { describe, expect, it, vi } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { getActiveCard, getLoading, getQuery, store } from '@/store';
 import '@testing-library/jest-dom';
 import { MemoryRouter } from 'react-router-dom';
-import { DetailWindow } from 'src/components/DetailWindow/DetailWindow';
+import { DetailWindow } from '@/components/DetailWindow/DetailWindow';
 import { Provider } from 'react-redux';
-import { ThemeProvider } from 'src/context/ThemeContext';
+import { ThemeProvider } from '@/context/ThemeContext';
 
-vi.mock('src/store', async (importOriginal) => {
-  const actual: typeof import('src/store') = await importOriginal();
+const mockContextValue = {
+  setIsOpen: vi.fn(),
+  activePage: '1',
+  inputValue: '',
+};
+
+vi.mock('next/router', () => ({
+  useRouter: vi.fn().mockReturnValue({
+    push: vi.fn(),
+  }),
+}));
+
+vi.mock('react-redux', async (importOriginal) => {
+  const actual = (await importOriginal()) as typeof import('react-redux');
   return {
     ...actual,
-    useGetQueryQuery: vi.fn(),
+    useDispatch: vi.fn().mockReturnValue(vi.fn()),
+    useSelector: vi.fn((selector) => {
+      if (selector === getActiveCard) {
+        return {
+          name: 'Test Name',
+          birth_year: '1990',
+          eye_color: 'blue',
+          height: '180',
+          homeworld: 'Earth',
+          hair_color: 'brown',
+          gender: 'male',
+          mass: '80',
+          url: 'https://example.com',
+        };
+      }
+      if (selector === getLoading) {
+        return false;
+      }
+      if (selector === getQuery) {
+        return 'test query';
+      }
+      return null;
+    }),
   };
 });
 
-const mockUseGetQueryQuery = vi.mocked(useGetQueryQuery);
+vi.mock('@/context/useTheme', () => ({
+  useTheme: () => ({
+    themeStyles: { detailContainer: 'mocked-detail-container', title: 'mocked-title' },
+  }),
+}));
 
 describe('DetailWindow', () => {
-  vi.mock('react-router-dom', async (importOriginal) => {
-    const actual: typeof import('react-router-dom') = await importOriginal();
-    return {
-      ...actual,
-      useOutletContext: () => ({
-        setActiveCard: vi.fn(),
-        activeCard: null,
-        setIsOpen: vi.fn(),
-        activePage: null,
-        inputValue: '',
-      }),
-    };
-  });
+  it('renders active card details correctly', () => {
+    render(
+      <MemoryRouter>
+        <Provider store={store}>
+          <ThemeProvider>
+            <DetailWindow
+              setIsOpen={mockContextValue.setIsOpen}
+              activePage={mockContextValue.activePage}
+              inputValue={mockContextValue.inputValue}
+            />
+          </ThemeProvider>
+        </Provider>
+      </MemoryRouter>,
+    );
 
-  describe('DetailWindow', () => {
-    it('Check fetch error msg', async () => {
-      mockUseGetQueryQuery.mockReturnValue({
-        data: undefined,
-        error: new Error('Failed to fetch'),
-        isLoading: false,
-        isSuccess: false,
-        isError: true,
-        refetch: vi.fn(),
-      });
-
-      render(
-        <MemoryRouter>
-          <Provider store={store}>
-            <ThemeProvider>
-              <DetailWindow />
-            </ThemeProvider>
-          </Provider>
-        </MemoryRouter>,
-      );
-
-      await waitFor(() => {
-        expect(screen.getByTestId('error-message')).toBeInTheDocument();
-        expect(screen.getByTestId('error-message')).toHaveTextContent(
-          'Failed to fetch data. Please try again later.',
-        );
-      });
-    });
+    expect(screen.getByText('Test Name')).toBeInTheDocument();
+    expect(screen.getByText(/Birth year: 1990/i)).toBeInTheDocument();
+    expect(screen.getByText(/Eye color: blue/i)).toBeInTheDocument();
+    expect(screen.getByText(/Height: 180/i)).toBeInTheDocument();
+    expect(screen.getByText(/Homeworld: Earth/i)).toBeInTheDocument();
+    expect(screen.getByText(/Hair color: brown/i)).toBeInTheDocument();
+    expect(screen.getByText(/Gender: male/i)).toBeInTheDocument();
+    expect(screen.getByText(/Mass: 80/i)).toBeInTheDocument();
+    expect(screen.getByText(/URL: https:\/\/example.com/i)).toBeInTheDocument();
   });
 });

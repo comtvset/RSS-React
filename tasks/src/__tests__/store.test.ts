@@ -1,17 +1,17 @@
-import { expect, test } from 'vitest';
-import inputReducer, { setInputSlice } from 'src/store/inputSlice';
-import resultReducer, { setResultSlice } from 'src/store/resultSlice';
-import loadingReducer, { setLoadingSlice } from 'src/store/loadingSlice';
-import countReducer, { setCountSlice } from 'src/store/countSlice';
-import activeCardReducer, { setActiveCard } from 'src/store/activeCardSlice';
+import { describe, expect, it, test } from 'vitest';
+import inputReducer, { setInputSlice } from '@/store/inputSlice';
+import resultReducer, { setResultSlice } from '@/store/resultSlice';
+import loadingReducer, { setLoadingSlice } from '@/store/loadingSlice';
+import countReducer, { setCountSlice } from '@/store/countSlice';
+import activeCardReducer, { setActiveCard } from '@/store/activeCardSlice';
 import checkedCardSliceReducer, {
   addCheckedCard,
   clearCheckedCard,
   removeCheckedCard,
   setCheckedCardSlice,
-} from 'src/store/checkedCardSlice';
-import store, { RootState } from 'src/store/store';
-import { PersonAllFields } from 'src/components/Pages/mainPage/MainPage';
+} from '@/store/checkedCardSlice';
+import { PersonAllFields } from '@/pages/main';
+import { RootState, store } from '@/store';
 
 const samplePerson: PersonAllFields = {
   name: 'persone',

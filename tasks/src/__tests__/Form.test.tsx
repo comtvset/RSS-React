@@ -1,65 +1,52 @@
 import { describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { Form } from 'src/components/form/Form';
+import { Form } from '@/components/form/Form';
 import '@testing-library/jest-dom';
-import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { store } from 'src/store';
-import {
-  BaseQueryFn,
-  FetchArgs,
-  FetchBaseQueryError,
-  FetchBaseQueryMeta,
-  QueryDefinition,
-} from '@reduxjs/toolkit/query';
+import { store } from '@/store';
+import { ThemeProvider } from '@/context/ThemeContext';
 
-vi.mock('src/store', async (importOriginal) => {
-  const actual: typeof import('src/store') = await importOriginal();
-  return {
-    ...actual,
-    useLazyGetQueryQuery: vi
-      .fn()
-      .mockReturnValue([vi.fn(), {}, { fulfilledTimeStamp: Date.now() }]) as () => [
-      QueryDefinition<
-        unknown,
-        BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError, object, FetchBaseQueryMeta>,
-        never,
-        unknown,
-        'starWarsAPI'
-      >,
-      Record<string, unknown>,
-      { fulfilledTimeStamp: number },
-    ],
-    setLoadingSlice: vi.fn(),
-    setInputSlice: vi.fn(),
-    setResultSlice: vi.fn(),
-    setCountSlice: vi.fn(),
-  };
-});
+vi.mock('next/router', () => ({
+  useRouter: vi.fn().mockReturnValue({
+    query: {},
+    push: vi.fn(),
+  }),
+}));
 
-vi.mock('src/context/useTheme', () => ({
-  useTheme: () => ({
+vi.mock('../../hooks/myCustomHook', () => ({
+  useCustomHook: vi.fn().mockReturnValue(['', vi.fn()]),
+}));
+
+vi.mock('../../context/useTheme', () => ({
+  useTheme: vi.fn().mockReturnValue({
     themeStyles: { formInput: 'mocked-form-input', button: 'mocked-button' },
   }),
 }));
 
-const mockNavigate = vi.fn();
-vi.mock('react-router-dom', async (importOriginal) => {
-  const actual: typeof import('react-router-dom') = await importOriginal();
+vi.mock('react-redux', async (importOriginal) => {
+  const actual: typeof import('react-redux') = await importOriginal();
   return {
     ...actual,
-    useNavigate: () => mockNavigate,
+    useDispatch: vi.fn().mockReturnValue(vi.fn()),
+    Provider: actual.Provider,
   };
 });
 
 describe('Form', () => {
   it('should update input value on change', () => {
+    const initialData = {
+      count: 0,
+      next: null,
+      previous: null,
+      results: [],
+    };
+
     render(
-      <MemoryRouter>
-        <Provider store={store}>
-          <Form setActivePage={vi.fn()} />
-        </Provider>
-      </MemoryRouter>,
+      <Provider store={store}>
+        <ThemeProvider>
+          <Form setActivePage={vi.fn()} initialData={initialData} setResults={vi.fn()} />
+        </ThemeProvider>
+      </Provider>,
     );
 
     const input = screen.getByRole('textbox');

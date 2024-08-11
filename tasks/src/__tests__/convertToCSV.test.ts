@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
-import { convertToCSV } from 'src/serveces/tools/convertToCSV';
-import { PersonAllFields } from 'src/components/Pages/mainPage/MainPage';
+import { convertToCSV } from '@/serveces/tools/convertToCSV';
+import { PersonAllFields } from '@/pages/main';
 
 const sampleData: PersonAllFields[] = [
   {
