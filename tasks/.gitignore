@@ -112,3 +112,8 @@ package-lock.json
 
 # Vite
 .vite
+
+# ...
+.next
+next-env.d.ts
+dist

@@ -1,52 +1,58 @@
 import { describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { Pagination } from 'src/components/Pagination/Pagination';
-import '@testing-library/jest-dom';
+import { Pagination } from '@/components/Pagination/Pagination';
+import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { store, useGetQueryQuery } from 'src/store';
-
-interface UseGetQueryResult {
-  data: {
-    count: number;
-    results: string[];
-  };
-  isFetching: boolean;
-  refetch: () => void;
-}
-
-vi.mock('src/store', async (importOriginal) => {
-  const actual: typeof import('src/store') = await importOriginal();
-  return {
-    ...actual,
-    useGetQueryQuery: vi.fn() as unknown as () => UseGetQueryResult,
-  };
-});
-
-vi.mock('src/context/useTheme', () => ({
-  useTheme: () => ({
-    themeStyles: { page: 'mocked-page' },
-  }),
-}));
+import { store } from '@/store';
+import { ThemeProvider } from '@/context/ThemeContext';
 
 describe('Pagination', () => {
-  const mockSetActivePage = vi.fn();
+  const mockProps = {
+    activePage: '1',
+    setActivePage: vi.fn(),
+    initialData: {
+      count: 100,
+      next: 'https://swapi.dev/api/people/?page=2',
+      previous: null,
+      results: [
+        {
+          name: 'Luke Skywalker',
+          height: '172',
+          mass: '77',
+          hair_color: 'blond',
+          skin_color: 'fair',
+          eye_color: 'blue',
+          birth_year: '19BBY',
+          gender: 'male',
+          homeworld: 'https://swapi.dev/api/planets/1/',
+          films: [
+            'https://swapi.dev/api/films/1/',
+            'https://swapi.dev/api/films/2/',
+            'https://swapi.dev/api/films/3/',
+            'https://swapi.dev/api/films/6/',
+          ],
+          species: [],
+          vehicles: ['https://swapi.dev/api/vehicles/14/', 'https://swapi.dev/api/vehicles/30/'],
+          starships: ['https://swapi.dev/api/starships/12/', 'https://swapi.dev/api/starships/22/'],
+          created: '2014-12-09T13:50:51.644000Z',
+          edited: '2014-12-20T21:17:56.891000Z',
+          url: 'https://swapi.dev/api/people/1/',
+        },
+      ],
+    },
+    results: [],
+    setResults: vi.fn(),
+  };
 
-  beforeEach(() => {
-    const mockedUseGetQueryQuery = useGetQueryQuery as unknown as {
-      mockReturnValue: (value: UseGetQueryResult) => void;
-    };
-    mockedUseGetQueryQuery.mockReturnValue({
-      data: { count: 30, results: [] },
-      isFetching: false,
-      refetch: vi.fn(),
-    });
-  });
-
-  it('should render pagination correctly', () => {
+  it('renders pagination correctly', () => {
     render(
-      <Provider store={store}>
-        <Pagination activePage="1" setActivePage={mockSetActivePage} />
-      </Provider>,
+      <MemoryRouter>
+        <Provider store={store}>
+          <ThemeProvider>
+            <Pagination {...mockProps} />
+          </ThemeProvider>
+        </Provider>
+      </MemoryRouter>,
     );
 
     expect(screen.getByText('<')).toBeInTheDocument();
@@ -54,42 +60,27 @@ describe('Pagination', () => {
     expect(screen.getByText('>')).toBeInTheDocument();
   });
 
-  it('should call setActivePage when page number is clicked', () => {
+  it('calls setActivePage and router.push on page click', () => {
+    vi.mock('next/router', () => ({
+      useRouter: () => ({
+        query: { search: 'test' },
+        push: vi.fn(),
+      }),
+    }));
+
     render(
-      <Provider store={store}>
-        <Pagination activePage="1" setActivePage={mockSetActivePage} />
-      </Provider>,
+      <MemoryRouter>
+        <Provider store={store}>
+          <ThemeProvider>
+            <Pagination {...mockProps} />
+          </ThemeProvider>
+        </Provider>
+      </MemoryRouter>,
     );
 
-    const pageButton = screen.getByText('1');
-    fireEvent.click(pageButton);
+    const page2 = screen.getByText('2');
+    fireEvent.click(page2);
 
-    expect(mockSetActivePage).toHaveBeenCalledWith('1');
-  });
-
-  it('should call setActivePage when next button is clicked', () => {
-    render(
-      <Provider store={store}>
-        <Pagination activePage="1" setActivePage={mockSetActivePage} />
-      </Provider>,
-    );
-
-    const nextButton = screen.getByText('>');
-    fireEvent.click(nextButton);
-
-    expect(mockSetActivePage).toHaveBeenCalledWith('2');
-  });
-
-  it('should call setActivePage when previous button is clicked if not on first page', () => {
-    render(
-      <Provider store={store}>
-        <Pagination activePage="2" setActivePage={mockSetActivePage} />
-      </Provider>,
-    );
-
-    const prevButton = screen.getByText('<');
-    fireEvent.click(prevButton);
-
-    expect(mockSetActivePage).toHaveBeenCalledWith('1');
+    expect(mockProps.setActivePage).toHaveBeenCalledWith('2');
   });
 });

@@ -1,6 +1,6 @@
-import { createContext, useState, ReactNode, useLayoutEffect, useMemo } from 'react';
-import themeStyle from 'src/theme/themeStyle.module.scss';
-import defaultStyle from 'src/theme/defaultStyle.module.scss';
+import { createContext, useState, ReactNode, useEffect, useMemo } from 'react';
+import themeStyle from '../theme/themeStyle.module.scss';
+import defaultStyle from '../theme/defaultStyle.module.scss';
 
 type Theme = 'light' | 'dark';
 
@@ -19,7 +19,7 @@ const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const className = theme === 'dark' ? 'dark-theme' : 'light-theme';
     document.body.classList.add(className);
     return () => {

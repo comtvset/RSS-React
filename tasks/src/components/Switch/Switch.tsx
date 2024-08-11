@@ -1,5 +1,5 @@
 import style from './Switch.module.scss';
-import { useTheme } from 'src/context/useTheme';
+import { useTheme } from '../../context/useTheme';
 
 export const Switch: React.FC = () => {
   const { theme, toggleTheme } = useTheme();

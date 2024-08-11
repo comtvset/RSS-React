@@ -11,8 +11,6 @@ export default defineConfig({
     coverage: {
       exclude: [
         'src/components/ErrorBoundary/ErrorBoundary.tsx',
-        'src/components/Routes/root.tsx',
-        'src/main.tsx',
         'src/__tests__/**',
         '**/node_modules/**',
         '**/dist/**',
@@ -20,6 +18,9 @@ export default defineConfig({
         'tasks/src/__tests__/**',
         '.eslintrc.cjs',
         'vite.config.ts',
+        'next.config.mjs',
+        'src/vite-env.d.ts',
+        'next-env.d.ts',
       ],
     },
   },

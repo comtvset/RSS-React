@@ -1,4 +1,4 @@
-import style from 'src/components/DetailWindow/DetailWindow.module.scss';
+import style from '@/components/DetailWindow/DetailWindow.module.scss';
 export const Loading = () => {
   return (
     <>

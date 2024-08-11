@@ -1,8 +1,8 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { Switch } from 'src/components/Switch/Switch';
-import { ThemeContext, ThemeContextType } from 'src/context/ThemeContext';
+import { Switch } from '@/components/Switch/Switch';
+import { ThemeContext, ThemeContextType } from '@/context/ThemeContext';
 
 beforeEach(() => {
   vi.clearAllMocks();
