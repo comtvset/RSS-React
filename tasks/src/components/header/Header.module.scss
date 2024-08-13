@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  font-size: 21px;
+  border-bottom: solid 1px #c3a95c;
+  background-color: #c3a95c2d;
+}
+
+.nav {
+  display: flex;
+  gap: 30px;
+  place-items: center;
+  text-align: center;
+}
