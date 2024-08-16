@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import resultReducer from 'src/store/resultSlice';
+import dataSliceReducer from './dataSlice';
 
 export const store = configureStore({
   reducer: {
-    result: resultReducer,
+    form: dataSliceReducer,
   },
 });
 

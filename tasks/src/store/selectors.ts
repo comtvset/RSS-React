@@ -1,3 +1,3 @@
 import { RootState } from './store';
 
-export const getResult = (state: RootState) => state.result.result;
+export const selectFormData = (state: RootState) => state.form.entries;

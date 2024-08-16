@@ -7,6 +7,8 @@ import { Home } from './pages/home/Home.tsx';
 import { ManualForm } from './pages/manualForm/ManualForm.tsx';
 import Root from './components/routes/Root.tsx';
 import { ReactHookForm } from './pages/reactHookForm/ReactHookForm.tsx';
+import { Provider } from 'react-redux';
+import store from './store/store.ts';
 
 const rootElement = document.createElement('div');
 rootElement.id = 'root';
@@ -36,6 +38,8 @@ const router = createBrowserRouter([
 
 createRoot(rootElement).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>,
 );

@@ -17,22 +17,33 @@ a {
   transition: color 0.3s ease;
 }
 
-a:hover {
-  color: #c3a95c;
-}
-
 body {
   margin: 0;
   min-height: 100vh;
 }
 
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+  color: #83845c;
+}
+
+h2 {
+  color: #0000002d;
 }
 
 h3 {
   margin: 0;
+  color: #e6e1bd;
+}
+
+p {
+  font-size: 1.1em;
+  margin: 10px;
+  font-weight: bold;
+  color: #4f503cbe;
+}
+
+label {
+  color: rgb(255, 238, 216);
 }
 
 button {
@@ -42,16 +53,18 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #3d3d3d;
   color: white;
   cursor: pointer;
   transition: border-color 0.25s;
+  margin: 10px;
 }
 
 button:hover {
-  border-color: #646cff;
+  border-color: #91ecf8;
 }
 
 button:active {
-  background-color: #646cff;
+  background-color: #91ecf8;
+  color: black;
 }

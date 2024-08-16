@@ -1,11 +1,41 @@
-// .infoContainer {
-//   display: flex;
-//   align-items: center;
-// }
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-// @media (width < 901px) {
-//   .infoContainer {
-//     flex-wrap: wrap;
-//     flex-direction: column-reverse;
-//   }
-// }
+.containerForms {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.formData {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  padding: 20px 40px;
+  border: 1px solid #4f503c4f;
+  border-radius: 5px;
+  background-color: rgba(148, 148, 148, 0.541);
+  min-width: 300px;
+}
+
+.target {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: rgba(22, 175, 195, 0.8);
+    border-color: rgba(29, 67, 68, 0.205);
+  }
+  50% {
+    background-color: rgba(22, 175, 195, 0.4);
+    border-color: rgba(29, 67, 68, 0.1);
+  }
+  100% {
+    background-color: rgba(22, 175, 195, 0.8);
+    border-color: rgba(29, 67, 68, 0.205);
+  }
+}
