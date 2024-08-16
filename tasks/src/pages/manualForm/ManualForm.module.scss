@@ -1,14 +1,23 @@
 .main {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  place-items: center;
+  justify-content: center;
+  height: 100%;
 }
 
 .container {
-  width: 500px;
-  height: 700px;
-  background-color: rgba(36, 134, 109, 0.301);
+  max-width: 400px;
+  height: auto;
+  background-color: #3b3b3b96;
+  border: solid 1px #706f6b;
   margin: 20px;
-  padding: 10px;
+  padding: 20px 50px;
   border-radius: 5px;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

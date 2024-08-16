@@ -14,3 +14,35 @@
   place-items: center;
   text-align: center;
 }
+
+.nav a {
+  position: relative;
+  color: #b98c0e;
+  text-decoration: none;
+  padding-bottom: 2px;
+}
+
+.nav a:hover {
+  color: #a0aa4a;
+}
+
+.nav .active {
+  color: #a0aa4a;
+}
+
+.nav a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #a0aa4a;
+  transform-origin: bottom right;
+}
+
+.nav a.active::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}

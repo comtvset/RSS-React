@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import style from './Header.module.scss';
 
 export const Header: React.FC = () => {
@@ -6,9 +6,18 @@ export const Header: React.FC = () => {
     <>
       <div className={style.container}>
         <nav className={style.nav}>
-          <Link to="/">Home</Link>
-          <Link to="/manual-form">Manual Form</Link>
-          <Link to="/react-hook-form">React Hook Form</Link>
+          <NavLink to="/" className={({ isActive }) => (isActive ? style.active : '')}>
+            Home
+          </NavLink>
+          <NavLink to="/manual-form" className={({ isActive }) => (isActive ? style.active : '')}>
+            Manual Form
+          </NavLink>
+          <NavLink
+            to="/react-hook-form"
+            className={({ isActive }) => (isActive ? style.active : '')}
+          >
+            React Hook Form
+          </NavLink>
         </nav>
       </div>
     </>
