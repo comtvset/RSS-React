@@ -36,11 +36,12 @@ export const ReactHookForm: React.FC = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     reset,
   } = useForm({
     mode: 'onChange',
     resolver: yupResolver(schema),
+    shouldFocusError: true,
   });
 
   const dispatch = useDispatch();
@@ -83,7 +84,7 @@ export const ReactHookForm: React.FC = () => {
               name="name"
               placeholder="write your name"
               error={errors?.name?.message}
-              otherProps={register('name')}
+              rest={register('name')}
             />
             <Input
               content="Age"
@@ -92,7 +93,7 @@ export const ReactHookForm: React.FC = () => {
               name="age"
               placeholder="write your age"
               error={errors?.age?.message}
-              otherProps={register('age')}
+              rest={register('age')}
             />
             <Input
               content="Email"
@@ -101,7 +102,7 @@ export const ReactHookForm: React.FC = () => {
               name="email"
               placeholder="write your email"
               error={errors?.email?.message}
-              otherProps={register('email')}
+              rest={register('email')}
             />
             <Input
               content="Password"
@@ -110,7 +111,7 @@ export const ReactHookForm: React.FC = () => {
               name="password"
               placeholder="set password"
               error={errors?.password?.message}
-              otherProps={register('password')}
+              rest={register('password')}
             />
             <Input
               content="Confirm password"
@@ -119,7 +120,7 @@ export const ReactHookForm: React.FC = () => {
               name="rePassword"
               placeholder="repeat password"
               error={errors?.rePassword?.message}
-              otherProps={register('rePassword')}
+              rest={register('rePassword')}
             />
             <Select
               content="Gender"
@@ -128,7 +129,7 @@ export const ReactHookForm: React.FC = () => {
               placeholder="choose gender"
               options={['male', 'female', 'other']}
               error={errors?.gender?.message}
-              otherProps={register('gender')}
+              rest={register('gender')}
             />
             <Select
               content="Country"
@@ -137,7 +138,7 @@ export const ReactHookForm: React.FC = () => {
               placeholder="choose your country"
               options={countries}
               error={errors?.country?.message}
-              otherProps={register('country')}
+              rest={register('country')}
             />
             <Checkbox
               content="I agree to terms and conditions"
@@ -145,7 +146,7 @@ export const ReactHookForm: React.FC = () => {
               name="accept"
               placeholder="accept"
               error={errors?.accept?.message}
-              otherProps={register('accept')}
+              rest={register('accept')}
             />
             <Input
               content="Upload .jpeg or .png image"
@@ -154,10 +155,12 @@ export const ReactHookForm: React.FC = () => {
               name="file"
               placeholder="file"
               error={errors?.file?.message}
-              otherProps={register('file')}
+              rest={register('file')}
             />
 
-            <input className={style.submit} type="submit" value="Submit" />
+            <button type="submit" value="Submit" disabled={!isValid}>
+              Submit
+            </button>
           </form>
         </div>
       </div>

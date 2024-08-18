@@ -1,16 +1,25 @@
 import * as yup from 'yup';
 
 export const schema = yup.object().shape({
-  name: yup.string().required('Name is required').min(2, 'Name must be at least 2 characters'),
+  name: yup
+    .string()
+    .required('Name is required')
+    .matches(/^[A-Z]/, 'Name must start with a capital letter'),
   age: yup
     .number()
+    .required('Age is required')
+    .min(1, 'Age must be polite number')
+    .test('required', 'Age is required', (value) => value != null && value !== 0)
     .transform((originalValue) => {
       const parsed = Number(originalValue);
       return isNaN(parsed) ? undefined : parsed;
-    })
-    .required('Age is required')
-    .min(1, 'You must be polite number'),
-  email: yup.string().required('Email is required').email('Invalid email address'),
+    }),
+
+  email: yup
+    .string()
+    .required('Email is required')
+    .email('Invalid email address')
+    .matches(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,63}$/, 'Invalid email address'),
   password: yup
     .string()
     .required('Password is required')
@@ -29,7 +38,7 @@ export const schema = yup.object().shape({
   gender: yup
     .string()
     .required('Gender is required')
-    .oneOf(['male', 'female', 'other'], 'Invalid gender'),
+    .oneOf(['male', 'female', 'other'], 'Gender is required'),
   country: yup.string().required('Country is required'),
   accept: yup.boolean().oneOf([true], 'You must accept the terms and conditions'),
   file: yup
