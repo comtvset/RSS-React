@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import style from '../input.module.scss';
 
 type InputType = 'text' | 'number' | 'email' | 'password' | 'file';
@@ -10,39 +10,43 @@ interface InputProps {
   placeholder: string;
   name: string;
   error?: string;
-  otherProps?: React.InputHTMLAttributes<HTMLInputElement>;
+  rest?: React.InputHTMLAttributes<HTMLInputElement>;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ content, type, label, placeholder, name, error, otherProps }, ref) =>
-    type !== 'password' ? (
+  ({ content, type, label, placeholder, name, error, rest, onChange }, ref) => {
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+    const togglePasswordVisibility = () => {
+      setIsPasswordVisible(!isPasswordVisible);
+    };
+
+    return (
       <div className={style.container}>
-        <label htmlFor={label}>{content}</label>
+        <label htmlFor={label}>
+          {`${content} `}
+          <span style={{ color: 'rgb(233, 86, 86)' }}>*</span>
+        </label>
         <input
           className={style.customInput}
-          type={type}
+          type={type === 'password' && isPasswordVisible ? 'text' : type}
           id={label}
           name={name}
           placeholder={placeholder}
           ref={ref}
-          {...otherProps}
+          onChange={onChange}
+          {...rest}
         />
         <span className={style.error}>{error}</span>
+
+        {type === 'password' && (
+          <div className={style.showPassword}>
+            <input type="checkbox" id={`toggle-${label}`} onChange={togglePasswordVisibility} />
+            <label htmlFor={`toggle-${label}`}>Show password</label>
+          </div>
+        )}
       </div>
-    ) : (
-      <div className={style.container}>
-        <label htmlFor={label}>{content}</label>
-        <input
-          className={style.customInput}
-          type={type}
-          name={name}
-          placeholder={placeholder}
-          ref={ref}
-          {...otherProps}
-        />
-        <span className={style.error}>{error}</span>
-        <label htmlFor={label}></label>
-        <progress id={label} max="100" value="40"></progress>
-      </div>
-    ),
+    );
+  },
 );

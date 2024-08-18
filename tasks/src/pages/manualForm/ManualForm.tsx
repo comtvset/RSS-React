@@ -26,6 +26,14 @@ export const ManualForm: React.FC = () => {
   const navigate = useNavigate();
   const countries = useSelector(selectCountries);
 
+  const clearError = (field: string) => {
+    setErrors((prevErrors) => {
+      const newErrors = { ...prevErrors };
+      delete newErrors[field];
+      return newErrors;
+    });
+  };
+
   const handleSubmit = useCallback(async () => {
     if (
       refName.current &&
@@ -113,6 +121,7 @@ export const ManualForm: React.FC = () => {
               placeholder="write your name"
               ref={refName}
               error={errors.name}
+              onChange={() => clearError('name')}
             />
             <Input
               content="Age"
@@ -122,6 +131,7 @@ export const ManualForm: React.FC = () => {
               placeholder="write your age"
               ref={refAge}
               error={errors.age}
+              onChange={() => clearError('age')}
             />
             <Input
               content="Email"
@@ -131,6 +141,7 @@ export const ManualForm: React.FC = () => {
               placeholder="write your email"
               ref={refEmail}
               error={errors.email}
+              onChange={() => clearError('email')}
             />
             <Input
               content="Password"
@@ -140,6 +151,7 @@ export const ManualForm: React.FC = () => {
               placeholder="set password"
               ref={refPassword}
               error={errors.password}
+              onChange={() => clearError('password')}
             />
             <Input
               content="Confirm password"
@@ -149,6 +161,7 @@ export const ManualForm: React.FC = () => {
               placeholder="repeat password"
               ref={refRePassword}
               error={errors.rePassword}
+              onChange={() => clearError('rePassword')}
             />
             <Select
               content="Gender"
@@ -158,6 +171,7 @@ export const ManualForm: React.FC = () => {
               options={['male', 'female', 'other']}
               ref={refGender}
               error={errors.gender}
+              onChange={() => clearError('gender')}
             />
             <Select
               content="Country"
@@ -167,6 +181,7 @@ export const ManualForm: React.FC = () => {
               options={countries}
               ref={refCountry}
               error={errors.country}
+              onChange={() => clearError('country')}
             />
             <Checkbox
               content="I agree to terms and conditions"
@@ -175,6 +190,7 @@ export const ManualForm: React.FC = () => {
               placeholder="accept"
               ref={refAccept}
               error={errors.accept}
+              onChange={() => clearError('accept')}
             />
             <Input
               content="Upload .jpeg or .png image"
@@ -184,9 +200,12 @@ export const ManualForm: React.FC = () => {
               placeholder="file"
               ref={refFile}
               error={errors.file}
+              onChange={() => clearError('file')}
             />
 
-            <input className={style.submit} type="submit" value="Submit" />
+            <button type="submit" value="Submit">
+              Submit
+            </button>
           </form>
         </div>
       </div>

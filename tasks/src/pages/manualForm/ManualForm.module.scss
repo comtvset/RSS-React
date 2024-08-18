@@ -22,7 +22,7 @@
   align-items: center;
 }
 
-.submit {
+button {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -36,11 +36,24 @@
   margin: 10px;
 }
 
-.submit:hover {
+button:hover {
   border-color: #91ecf8;
 }
 
-.submit:active {
+button:active {
   background-color: #91ecf8;
   color: black;
+}
+
+button:disabled {
+  background-color: #d3d3d3;
+  color: #a0a0a0;
+  border-color: #d3d3d3;
+}
+
+button:disabled:hover,
+button:disabled:active {
+  background-color: #d3d3d3;
+  color: #a0a0a0;
+  border-color: #d3d3d3;
 }

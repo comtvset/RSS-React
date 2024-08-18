@@ -8,13 +8,17 @@ interface SelectProps {
   placeholder: string;
   name: string;
   error?: string;
-  otherProps?: React.InputHTMLAttributes<HTMLInputElement>;
+  rest?: React.InputHTMLAttributes<HTMLInputElement>;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
 export const Select = React.forwardRef<HTMLInputElement, SelectProps>(
-  ({ content, label, name, options, placeholder, error, otherProps }, ref) => (
+  ({ content, label, name, options, placeholder, error, rest, onChange }, ref) => (
     <div className={style.container}>
-      <label htmlFor={label}>{content}</label>
+      <label htmlFor={label}>
+        {`${content} `}
+        <span style={{ color: 'rgb(233, 86, 86)' }}>*</span>
+      </label>
       <input
         id={label}
         name={name}
@@ -22,7 +26,8 @@ export const Select = React.forwardRef<HTMLInputElement, SelectProps>(
         list={name + '-list'}
         ref={ref}
         className={style.customInput}
-        {...otherProps}
+        onChange={onChange}
+        {...rest}
       />
       <span className={style.error}>{error}</span>
       <datalist id={name + '-list'}>
