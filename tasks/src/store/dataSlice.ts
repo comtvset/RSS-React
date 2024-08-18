@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 export interface DataState {
   entries: Array<{
     name: string | null;
-    age: string | null;
+    age: number | null;
     email: string | null;
     password: string | null;
     rePassword: string | null;
@@ -11,6 +11,7 @@ export interface DataState {
     country: string | null;
     file: string | null;
     accept: boolean;
+    typeForm: string;
   }>;
 }
 
@@ -26,7 +27,7 @@ const dataSlice = createSlice({
       state,
       action: PayloadAction<{
         name: string | null;
-        age: string | null;
+        age: number | null;
         email: string | null;
         password: string | null;
         rePassword: string | null;
@@ -34,6 +35,7 @@ const dataSlice = createSlice({
         country: string | null;
         file: string | null;
         accept: boolean;
+        typeForm: string;
       }>,
     ) => {
       state.entries.push(action.payload);

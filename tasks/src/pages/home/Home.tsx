@@ -18,12 +18,14 @@ export const Home: React.FC = () => {
                 key={index}
                 className={`${style.formData} ${index === entries.length - 1 ? style.target : ''}`}
               >
+                <h3>Used ({entry.typeForm})</h3>
                 <p>Name: {entry.name}</p>
                 <p>Age: {entry.age}</p>
                 <p>Email: {entry.email}</p>
                 <p>Password: {entry.password}</p>
                 <p>Gender: {entry.gender}</p>
                 <p>Country: {entry.country}</p>
+                <p>Accept: {entry.accept}Yes</p>
                 <div>
                   {entry.file ? (
                     <img
@@ -35,7 +37,6 @@ export const Home: React.FC = () => {
                     <p>No file uploaded</p>
                   )}
                 </div>
-                <p>Accept: {entry.accept}Yes</p>
               </div>
             ))}
           </div>

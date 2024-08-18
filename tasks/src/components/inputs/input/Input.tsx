@@ -10,10 +10,11 @@ interface InputProps {
   placeholder: string;
   name: string;
   error?: string;
+  otherProps?: React.InputHTMLAttributes<HTMLInputElement>;
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ content, type, label, placeholder, name, error }, ref) =>
+  ({ content, type, label, placeholder, name, error, otherProps }, ref) =>
     type !== 'password' ? (
       <div className={style.container}>
         <label htmlFor={label}>{content}</label>
@@ -24,6 +25,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           name={name}
           placeholder={placeholder}
           ref={ref}
+          {...otherProps}
         />
         <span className={style.error}>{error}</span>
       </div>
@@ -36,6 +38,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           name={name}
           placeholder={placeholder}
           ref={ref}
+          {...otherProps}
         />
         <span className={style.error}>{error}</span>
         <label htmlFor={label}></label>
