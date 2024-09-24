@@ -6,7 +6,7 @@ interface RouteError {
 }
 
 export default function ErrorPage() {
-  const error = useRouteError() as RouteError; // TODO: get rid of the 'as'
+  const error = useRouteError() as RouteError;
 
   return (
     <div id="error-page">

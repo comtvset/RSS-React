@@ -7,14 +7,25 @@
 
   color-scheme: light dark;
   color: rgb(255, 255, 255);
-  background-image: url(../public/dark.jpeg);
-  background-position: center center;
-  background-size: cover;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.light-theme {
+  --background-image: url(../public/light.jpeg);
+  background-image: var(--background-image);
+  background-position: center center;
+  background-size: cover;
+}
+
+.dark-theme {
+  --background-image: url(../public/dark.jpeg);
+  background-image: var(--background-image);
+  background-position: center center;
+  background-size: cover;
 }
 
 a {
@@ -33,12 +44,15 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  overflow-x: hidden;
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+h3 {
+  margin: 0;
 }
 
 button {

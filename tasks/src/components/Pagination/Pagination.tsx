@@ -1,66 +1,50 @@
-import 'src/components/Pagination/Pagination.scss';
-import { Person } from 'src/pages/mainPage/MainPage.tsx';
-import { fetchData } from 'src/serveces/API/fetchData.ts';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import style from 'src/components/Pagination/Pagination.module.scss';
 import { getPages } from 'src/serveces/tools/getPages.ts';
+import { AppDispatch, getCountPage, getQuery, useGetQueryQuery } from 'src/store';
+import { setResultSlice } from 'src/store/resultSlice';
+import { setCountSlice } from 'src/store/countSlice';
+import { useTheme } from 'src/context/useTheme';
 
 interface PaginationProps {
-  setResults: React.Dispatch<React.SetStateAction<Person[]>>;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  countPage: string[];
-  setCountPage: React.Dispatch<React.SetStateAction<string[]>>;
-  query: string;
   activePage: string;
   setActivePage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const Pagination: React.FC<PaginationProps> = ({
-  setResults,
-  setIsLoading,
-  countPage,
-  setCountPage,
-  query,
-  activePage,
-  setActivePage,
-}) => {
-  const handleClick = async (page: string) => {
-    setIsLoading(true);
+export const Pagination: React.FC<PaginationProps> = ({ activePage, setActivePage }) => {
+  const currentUserQuery = useSelector(getQuery);
+  const countPage = useSelector(getCountPage);
 
-    try {
-      const data = await fetchData(query, page);
-      localStorage.setItem('queryDataPage', JSON.stringify(page));
-      setCountPage(getPages(data.count));
-      setResults(data.results);
-      setActivePage(page);
-    } catch (error) {
-      error;
-    } finally {
-      setIsLoading(false);
+  const dispatch = useDispatch<AppDispatch>();
+  const { data, isFetching } = useGetQueryQuery({ userQuery: currentUserQuery, page: activePage });
+  const { themeStyles } = useTheme();
+
+  useEffect(() => {
+    if (data && !isFetching) {
+      const pages = getPages(data.count);
+      dispatch(setCountSlice(pages));
+      dispatch(setResultSlice(data.results));
     }
+  }, [data, dispatch, isFetching]);
+
+  const handleClick = (page: string) => {
+    setActivePage(page);
   };
 
-  const next = async (page: string) => {
-    setIsLoading(true);
+  const next = (page: string) => {
     const pageNumber = Number(page) + 1;
-
     if (countPage.length + 1 !== pageNumber) {
-      try {
-        const data = await fetchData(query, String(pageNumber));
-        localStorage.setItem('queryDataPage', JSON.stringify(String(pageNumber)));
-        setCountPage(getPages(data.count));
-        setResults(data.results);
-        setActivePage(String(pageNumber));
-      } catch (error) {
-        error;
-      } finally {
-        setIsLoading(false);
-      }
+      setActivePage(pageNumber.toString());
     }
   };
+
+  if (isFetching) return <></>;
 
   return (
-    <div className="pageContainer">
+    <div className={style.pageContainer}>
       <div
-        className={`page ${Number(activePage) === 1 ? 'disabled' : ''}`}
+        className={`${style.page} ${themeStyles.page} ${Number(activePage) === 1 ? style.disabled : ''}`}
         onClick={() => {
           if (Number(activePage) > 1) handleClick(String(Number(activePage) - 1));
         }}
@@ -70,7 +54,7 @@ export const Pagination: React.FC<PaginationProps> = ({
       {countPage.map((page, index) => (
         <div
           key={index}
-          className={`page ${page === activePage ? 'pageActive' : ''}`}
+          className={`${style.page} ${themeStyles.page} ${page === activePage ? style.pageActive : ''}`}
           onClick={() => {
             handleClick(page);
           }}
@@ -79,7 +63,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         </div>
       ))}
       <div
-        className={`page ${Number(activePage) === countPage.length ? 'disabled' : ''}`}
+        className={`${style.page} ${themeStyles.page} ${Number(activePage) === countPage.length ? style.disabled : ''}`}
         onClick={() => {
           if (Number(activePage) < countPage.length) next(activePage);
         }}

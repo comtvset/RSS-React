@@ -1,12 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { ButtonError } from 'src/components/ButtonError/ButtonError.tsx';
 import { ErrorBoundary } from 'src/components/ErrorBoundary/ErrorBoundary.tsx';
 import { Form } from 'src/components/form/Form';
+import { Loading } from 'src/components/Loading/Loading';
 import { Pagination } from 'src/components/Pagination/Pagination.tsx';
 import { Results } from 'src/components/Results/Results.tsx';
-import 'src/pages/mainPage/MainPage.scss';
+import style from 'src/pages/mainPage/MainPage.module.scss';
+import themeStyle from 'src/theme/themeStyle.module.scss';
+import { getActiveCard, getCheckedCard, getLoading } from 'src/store';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { CustomHook } from 'src/components/myCustomHook/myCustomHook';
+import { useCustomHook } from 'src/hooks/myCustomHook';
+import { setActiveCard } from 'src/store/activeCardSlice';
+import { SelectedWindow } from 'src/components/SelectedWindow/SelectedWindow';
+import { useTheme } from 'src/context/useTheme';
 
 export interface Person {
   birth_year: string;
@@ -21,63 +28,55 @@ export interface Person {
   url: string;
 }
 
+export interface PersonAllFields extends Person {
+  skin_color: string;
+  species: string[];
+  vehicles: string[];
+  starships: string[];
+  created: string;
+  edited: string;
+}
+
 export const Main: React.FC = () => {
-  const [results, setResults] = useState<Person[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [countPage, setCountPage] = useState<string[]>([]);
   const [activePage, setActivePage] = useState<string>('1');
-  const [activeCard, setActiveCard] = useState<Person | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const navigate = useNavigate();
+  const [inputValue] = useCustomHook();
+  const { theme } = useTheme();
+  const activeCard = useSelector(getActiveCard);
+  const checkedCard = useSelector(getCheckedCard);
 
-  const [query, setQuery] = CustomHook();
+  const isCheckedCard = checkedCard.length;
+  const loading = useSelector(getLoading);
 
   useEffect(() => {
-    navigate(`/?search=${query}&page=${activePage}`);
-  }, [activePage, navigate, query]);
-
-  const handleCardClick = (card: Person) => {
-    if (card) {
-      setActiveCard(card);
-      navigate(`/details/${card.name}`);
-    }
-  };
+    navigate(`/?search=${inputValue}&page=${activePage}`);
+  }, [activePage, navigate, inputValue]);
 
   return (
     <>
       <ErrorBoundary>
-        <Form
-          query={query}
-          setQuery={setQuery}
-          results={results}
-          setResults={setResults}
-          isLoading={isLoading}
-          setIsLoading={setIsLoading}
-          setCountPage={setCountPage}
-          setActivePage={setActivePage}
-        />
-        <div className="infoContainer">
-          <Results
-            query={query}
-            results={results}
-            isLoading={isLoading}
-            setActiveCard={handleCardClick}
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-            activePage={activePage}
-          />
-          <Outlet context={{ setActiveCard, activeCard, setIsOpen, query, activePage }} />
+        <Form setActivePage={setActivePage} />
+        <div className={style.infoContainer}>
+          <div className={`${themeStyle[theme]}`}>
+            <h2>Search Results:</h2>
+            {loading ? (
+              <Loading />
+            ) : (
+              <Results isOpen={isOpen} setIsOpen={setIsOpen} activePage={activePage} />
+            )}
+          </div>
+          <Outlet context={{ setActiveCard, activeCard, setIsOpen, inputValue, activePage }} />
         </div>
-        <Pagination
-          setResults={setResults}
-          setIsLoading={setIsLoading}
-          countPage={countPage}
-          setCountPage={setCountPage}
-          query={query}
-          activePage={activePage}
-          setActivePage={setActivePage}
-        />
-        <ButtonError cusomError="My custom Error" />
+        {loading ? (
+          <span></span>
+        ) : (
+          <Pagination activePage={activePage} setActivePage={setActivePage} />
+        )}
+
+        <ButtonError customError="My custom Error" />
+
+        {isCheckedCard ? <SelectedWindow /> : <></>}
       </ErrorBoundary>
     </>
   );

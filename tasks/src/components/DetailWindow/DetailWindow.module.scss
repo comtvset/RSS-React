@@ -26,17 +26,6 @@
   padding-left: 20px;
 }
 
-.bord::before {
-  content: '';
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  height: 40vh;
-  border-left: 3px solid rgb(228, 216, 47);
-  border-radius: 15px;
-  animation: fadeInOutFast 0.5s ease-in-out infinite;
-}
-
 .detailContainer h3 {
   color: rgb(5, 5, 5);
 }
@@ -44,8 +33,21 @@
 .cross {
   cursor: pointer;
   position: relative;
-  top: 5px;
-  left: 140px;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.error {
+  color: rgb(255, 255, 255);
+  background-color: rgb(255, 0, 0);
+  border-radius: 5px;
+}
+
+.loading {
+  font-size: 20px;
+  color: white;
+  margin: 0;
+  animation: fadeInOutFast 0.3s ease-in-out infinite;
 }
 
 @media (width < 901px) {
@@ -60,7 +62,7 @@
   }
 
   .bord::before {
-    opacity: 0;
+    display: none;
   }
 }
 
@@ -84,7 +86,7 @@
   }
 
   50% {
-    opacity: 0.4;
+    opacity: 0.7;
   }
 
   100% {
