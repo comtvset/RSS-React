@@ -14,7 +14,7 @@ a {
   font-weight: 500;
   color: #83845c;
   text-decoration: inherit;
-  transition: color 0.3s ease;
+  transition: 0.3s ease;
 }
 
 body {
@@ -24,10 +24,12 @@ body {
 
 h1 {
   color: #83845c;
+  transition: 0.3s ease;
 }
 
 h2 {
   color: #0000002d;
+  transition: 0.3s ease;
 }
 
 h3 {
