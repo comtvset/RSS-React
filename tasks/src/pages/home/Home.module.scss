@@ -1,0 +1,72 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.containerForms {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.containerForms h3 {
+  margin: 10px;
+  color: #b36d45;
+}
+
+.formData {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  padding: 20px 40px;
+  border: 1px solid #4f503c4f;
+  border-radius: 5px;
+  background-color: rgba(148, 148, 148, 0.541);
+  min-width: 300px;
+  transition: 0.3s ease;
+}
+
+@media (width <=530px) {
+  .formData {
+    margin: 5px;
+    padding: 20px 20px;
+    transition: 0.3s ease;
+  }
+
+  h1 {
+    font-size: 21px;
+    transition: 0.3s ease;
+  }
+
+  h2 {
+    font-size: 16px;
+    transition: 0.3s ease;
+  }
+
+  a {
+    font-size: 17px;
+    transition: 0.3s ease;
+  }
+}
+
+.target {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: rgba(22, 175, 195, 0.8);
+    border-color: rgba(29, 67, 68, 0.205);
+  }
+
+  50% {
+    background-color: rgba(22, 175, 195, 0.4);
+    border-color: rgba(29, 67, 68, 0.1);
+  }
+
+  100% {
+    background-color: rgba(22, 175, 195, 0.8);
+    border-color: rgba(29, 67, 68, 0.205);
+  }
+}

@@ -1,0 +1,49 @@
+@import 'src/styles/normalize';
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  background-image: url(../public/background.jpg);
+  background-position: center center;
+  background-size: cover;
+}
+
+a {
+  font-weight: 500;
+  color: #83845c;
+  text-decoration: inherit;
+  transition: 0.3s ease;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+h1 {
+  color: #83845c;
+  transition: 0.3s ease;
+}
+
+h2 {
+  color: #0000002d;
+  transition: 0.3s ease;
+}
+
+h3 {
+  margin: 0;
+  color: #e6e1bd;
+}
+
+p {
+  font-size: 1.1em;
+  margin: 10px;
+  font-weight: bold;
+  color: #4f503cbe;
+}
+
+label {
+  color: rgb(255, 238, 216);
+}
