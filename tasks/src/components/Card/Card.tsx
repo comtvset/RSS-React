@@ -1,20 +1,57 @@
-import React from 'react';
-import 'src/components/Card/Card.scss';
+import { useEffect, useState } from 'react';
+import style from 'src/components/Card/Card.module.scss';
 import { Person } from 'src/pages/mainPage/MainPage';
+import { setActiveCard } from 'src/store/activeCardSlice.ts';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, getCheckedCard } from 'src/store';
+import { useNavigate } from 'react-router-dom';
+import { addCheckedCard, removeCheckedCard } from 'src/store/checkedCardSlice';
+import { useTheme } from 'src/context/useTheme';
 
 interface CardProps {
   result: Person;
-  setActiveCard: (card: Person | null) => void;
 }
 
-export const Card: React.FC<CardProps> = ({ result, setActiveCard }) => {
+export const Card: React.FC<CardProps> = ({ result }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const [checked, setChecked] = useState(false);
+  const checkedCard = useSelector(getCheckedCard);
+  const { themeStyles } = useTheme();
+
+  useEffect(() => {
+    const isCardChecked = checkedCard.some((card) => card.name === result.name);
+    setChecked(isCardChecked);
+  }, [checkedCard, result.name]);
+
   const handleClick = () => {
-    setActiveCard(result);
+    const smt = dispatch(setActiveCard(result));
+    if (smt) {
+      navigate(`/details/${result.name}`);
+    }
+  };
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(e.target.checked);
+    if (e.target.checked) {
+      dispatch(addCheckedCard(result));
+    } else {
+      dispatch(removeCheckedCard(result));
+    }
   };
 
   return (
     <>
-      <div className="card" onClick={handleClick}>
+      <div className={`${style.card} ${themeStyles.card}`} onClick={handleClick}>
+        <div className={style.checkboxContainer}>
+          <input
+            className={style.checkbox}
+            type="checkbox"
+            checked={checked}
+            onChange={handleCheckboxChange}
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
         <h3>{result.name}</h3>
         <p>{`Birth year: ${result.birth_year}`}</p>
         <p>{`Eye color: ${result.eye_color}`}</p>

@@ -2,7 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import 'src/index.scss';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import RootTest from './components/Routes/root.tsx';
+import Root from './components/Routes/root.tsx';
 import ErrorPage from './pages/ErrorPage/ErrorPage.tsx';
 import { DetailWindow } from './components/DetailWindow/DetailWindow.tsx';
 
@@ -13,7 +13,7 @@ document.body.appendChild(rootElement);
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <RootTest />,
+    element: <Root />,
     errorElement: <ErrorPage />,
     children: [
       {

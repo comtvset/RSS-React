@@ -1,0 +1,46 @@
+.selectedContainer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+  background-color: rgba(179, 179, 179, 0.582);
+  max-width: 350px;
+  align-items: center;
+  margin: 0 auto;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.selectedContainer button {
+  margin: 5px;
+  font-size: 12px;
+  padding: 6px;
+}
+
+.selectedContainer button {
+  margin: 5px;
+}
+
+.link {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  margin: 5px;
+  font-size: 12px;
+  padding: 4px 6px 4px 6px;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  color: white;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+.link:hover {
+  border-color: #646cff;
+}
+
+.link:active {
+  background-color: #646cff;
+}

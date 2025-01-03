@@ -1,5 +1,6 @@
 import { getPages } from '../serveces/tools/getPages';
 import { describe, it, expect } from 'vitest';
+import '@testing-library/jest-dom';
 
 describe('getPages function', () => {
   it('calculates total pages correctly', () => {
