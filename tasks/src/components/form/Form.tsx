@@ -36,7 +36,7 @@ export const Form: React.FC<FormProps> = ({ setActivePage }) => {
       dispatch(setCountSlice(pages));
       localStorage.setItem('pageData', JSON.stringify('1'));
     } catch (error) {
-      error;
+      throw new Error('Error from Forms: ' + (error as Error).message);
     } finally {
       dispatch(setLoadingSlice(false));
     }

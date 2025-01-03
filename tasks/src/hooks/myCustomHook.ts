@@ -8,7 +8,7 @@ export const useCustomHook = (): [string, React.Dispatch<React.SetStateAction<st
         const parsedValue = JSON.parse(savedQuery);
         return parsedValue.userQuery ?? '';
       } catch (error) {
-        error;
+        throw new Error('Error from myCustomHook: ' + (error as Error).message);
       }
     }
     return '';
